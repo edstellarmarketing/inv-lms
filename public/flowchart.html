@@ -1,0 +1,1172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Invensis LMS — Flowchart with Explanations</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root{
+    --bg:#f8fafc;
+    --panel:#ffffff;
+    --ink:#0f1133;
+    --muted:#6b7196;
+    --soft:#475569;
+    --border:#e5e7eb;
+    --line:#cbd5e1;
+
+    --auth:#2563eb; --auth-bg:#dbeafe;
+    --onboarding:#7c3aed; --onboarding-bg:#ede9fe;
+    --dashboard:#0f1133; --dashboard-bg:#e2e8f0;
+    --content:#0d9488; --content-bg:#ccfbf1;
+    --ai:#d97706; --ai-bg:#fed7aa;
+    --support:#db2777; --support-bg:#fce7f3;
+    --readiness:#16a34a; --readiness-bg:#dcfce7;
+    --voucher:#b45309; --voucher-bg:#fef3c7;
+    --exam:#1e3a8a; --exam-bg:#dbeafe;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  body{padding:0 0 80px}
+
+  /* Sticky stage nav */
+  header.topbar{
+    position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);
+    padding:14px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap
+  }
+  header.topbar h1{margin:0;font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px}
+  header.topbar h1::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#2563eb)}
+  header.topbar nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+  header.topbar nav a{
+    font-size:11.5px;font-weight:700;text-decoration:none;color:var(--soft);
+    padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff
+  }
+  header.topbar nav a:hover{background:#f1f5f9}
+
+  /* Page wrapper */
+  main{max-width:1280px;margin:0 auto;padding:30px 28px}
+
+  /* Stage section */
+  section.stage{margin-bottom:46px}
+  section.stage > header{
+    padding:14px 18px;border-radius:12px;display:flex;align-items:center;gap:14px;
+    margin-bottom:18px;border:1px solid var(--border)
+  }
+  section.stage h2{margin:0;font-size:20px;font-weight:800}
+  section.stage > header small{font-size:12.5px;color:var(--muted);font-weight:600}
+  section.stage.auth > header{background:var(--auth-bg);border-color:var(--auth);color:var(--auth)}
+  section.stage.onboarding > header{background:var(--onboarding-bg);border-color:var(--onboarding);color:var(--onboarding)}
+  section.stage.dashboard > header{background:var(--dashboard-bg);border-color:var(--dashboard);color:var(--dashboard)}
+  section.stage.content > header{background:var(--content-bg);border-color:var(--content);color:#0f766e}
+  section.stage.ai > header{background:var(--ai-bg);border-color:var(--ai);color:#92400e}
+  section.stage.support > header{background:var(--support-bg);border-color:var(--support);color:#be185d}
+  section.stage.readiness > header{background:var(--readiness-bg);border-color:var(--readiness);color:#15803d}
+  section.stage.voucher > header{background:var(--voucher-bg);border-color:var(--voucher);color:#92400e}
+  section.stage.exam > header{background:var(--exam-bg);border-color:var(--exam);color:var(--exam)}
+
+  /* Page card */
+  article.page{
+    background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:18px;
+    position:relative;overflow:hidden
+  }
+  article.page::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  article.page.auth::before{background:var(--auth)}
+  article.page.onboarding::before{background:var(--onboarding)}
+  article.page.dashboard::before{background:var(--dashboard)}
+  article.page.content::before{background:var(--content)}
+  article.page.ai::before{background:var(--ai)}
+  article.page.support::before{background:var(--support)}
+  article.page.readiness::before{background:var(--readiness)}
+  article.page.voucher::before{background:var(--voucher)}
+  article.page.exam::before{background:var(--exam)}
+
+  article.page > header.page-head{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+    margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)
+  }
+  article.page h3{margin:0;font-size:17px;font-weight:800;display:flex;align-items:center;gap:10px}
+  article.page h3 .icon{font-size:18px}
+  article.page .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  article.page .meta a{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--auth);
+    background:#eff6ff;padding:4px 10px;border-radius:6px;text-decoration:none;font-weight:700
+  }
+  article.page .meta a:hover{background:#dbeafe;text-decoration:underline}
+  article.page .task-pill{background:#0f1133;color:#fff;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:5px;letter-spacing:.4px}
+  article.page .tier-pill{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.4px}
+  article.page .tier-pill.bronze{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+  article.page .tier-pill.silver{background:#e2e8f0;color:#475569;border:1px solid #cbd5e1}
+  article.page .tier-pill.gold{background:#fef3c7;color:#92400e;border:1px solid #d97706}
+
+  article.page p.purpose{margin:0 0 14px;font-size:13.5px;color:var(--soft)}
+  article.page p.purpose strong{color:var(--ink)}
+
+  /* If/else flowchart blocks */
+  .branches{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+  .branch-label{
+    font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);
+    margin-bottom:6px
+  }
+  .branch{
+    background:#fafbff;border:1px solid var(--border);border-radius:10px;padding:12px 14px
+  }
+  .branch-action{
+    display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--ink);
+    margin-bottom:8px
+  }
+  .branch-action::before{
+    content:"▶";color:var(--auth);font-size:13px;flex-shrink:0
+  }
+  .conditions{display:flex;flex-direction:column;gap:6px;margin-left:22px;border-left:2px dashed var(--line);padding-left:14px}
+  .cond{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;line-height:1.6}
+  .cond .diamond{
+    display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+    width:18px;height:18px;background:#fff;border:2px solid #d97706;
+    transform:rotate(45deg);font-size:0
+  }
+  .cond .diamond.else{border-color:#94a3b8}
+  .cond .diamond.success{border-color:#16a34a}
+  .cond .test{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;
+    background:#fef9c3;color:#92400e;padding:1px 7px;border-radius:5px;font-weight:700;white-space:nowrap;border:1px solid #fde68a
+  }
+  .cond .test.else{background:#f1f5f9;color:#475569;border-color:#cbd5e1}
+  .cond .test.success{background:#dcfce7;color:#166534;border-color:#86efac}
+  .cond .goto{color:var(--soft);display:flex;align-items:center;gap:5px;flex:1;flex-wrap:wrap}
+  .cond .goto::before{content:"→";color:var(--muted);font-weight:800}
+  .cond .goto a{
+    color:var(--auth);text-decoration:none;font-weight:700;border-bottom:1px dotted var(--auth)
+  }
+  .cond .goto a:hover{background:#eff6ff}
+  .cond .note{color:var(--muted);font-size:11.5px;font-style:italic}
+
+  /* Single (non-conditional) outcome — no diamond */
+  .out-row{
+    display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--soft);
+    padding:4px 0
+  }
+  .out-row::before{content:"→";color:var(--muted);font-weight:800;flex-shrink:0}
+  .out-row a{color:var(--auth);text-decoration:none;font-weight:700;border-bottom:1px dotted var(--auth)}
+
+  /* Inbound (where users come from) */
+  .inbound{
+    background:#f8fafc;border-radius:8px;padding:8px 12px;margin-bottom:14px;
+    font-size:12px;color:var(--muted)
+  }
+  .inbound strong{color:var(--ink);font-weight:800;margin-right:6px}
+  .inbound a{color:var(--auth);text-decoration:none;font-weight:700}
+  .inbound a:hover{text-decoration:underline}
+
+  footer.status{
+    position:fixed;bottom:0;left:0;right:0;height:36px;background:#fff;border-top:1px solid var(--border);
+    padding:0 28px;display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--muted)
+  }
+  footer.status a{color:var(--auth);text-decoration:none;font-weight:700}
+
+  /* Anchor offset for sticky header */
+  section.stage{scroll-margin-top:80px}
+
+  @media (max-width:760px){
+    main{padding:20px 16px}
+    article.page{padding:18px}
+    header.topbar nav{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Invensis LMS — Flowchart</h1>
+  <nav>
+    <a href="#auth">Auth</a>
+    <a href="#onboarding">Onboarding</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#content">Content</a>
+    <a href="#ai">AI</a>
+    <a href="#support">Support</a>
+    <a href="#readiness">Readiness</a>
+    <a href="#voucher">Voucher</a>
+    <a href="#exam">Exam</a>
+  </nav>
+</header>
+
+<main id="root"></main>
+
+<footer class="status">
+  <span>65 pages · 9 stages · click any route to open it</span>
+  <span><a href="/flowd.html">← back to visual flow diagram</a></span>
+</footer>
+
+<script>
+const HOST = "https://inv-lms.vercel.app";
+
+const STAGES = [
+  { id: "auth", icon: "🔐", label: "Stage 2 — Authentication", sub: "Activation, login, and password recovery side flows" },
+  { id: "onboarding", icon: "🚀", label: "Stage 2 — Onboarding", sub: "4-step setup before the LMS dashboard unlocks" },
+  { id: "dashboard", icon: "📊", label: "Dashboards", sub: "Top-level, per-course, progress, and tier/combo variants" },
+  { id: "content", icon: "📚", label: "Stage 3 — Course content", sub: "Reference cards, study guides, Q-bank, mock exams" },
+  { id: "ai", icon: "🤖", label: "Stage 4 — AI tools", sub: "Personalised study + coaching layer (Silver+)" },
+  { id: "support", icon: "🤝", label: "Stage 5 — Support & mentoring", sub: "Live sessions, coaching, support, community, money-back" },
+  { id: "readiness", icon: "🎯", label: "Stage 6 — Readiness", sub: "Composite score + per-input drill-downs" },
+  { id: "voucher", icon: "🎟️", label: "Stage 6 — Voucher & booking", sub: "Tile states, reveal, awarding-body handoff, scheduled" },
+  { id: "exam", icon: "🏁", label: "Stage 7 — Exam day & outcomes", sub: "Exam day prep · standby · outcome · pass and fail paths · terminal" },
+];
+
+/**
+ * Page schema:
+ *   id, route, label, task, tier?, stage
+ *   purpose      — what the page does (HTML allowed)
+ *   inbound      — array of { from, label, trigger }
+ *   branches     — array of { action, conditions: [{ type, test, goto, gotoLabel, note }] }
+ *                  type is "if" | "else" | "success" | "plain"
+ */
+
+const PAGES = [
+  /* ── AUTH ─────────────────────────────────────────────────── */
+  {
+    id:"activate", stage:"auth", task:1, label:"Activation landing", route:"/activate/abc",
+    purpose:"Hero card showing the learner's course and tier, with one CTA. Reached from the activation email link.",
+    inbound:[{ label:"Activation email link" }],
+    branches:[
+      { action:"User clicks 'Set my password'",
+        conditions:[ { type:"plain", goto:"set-password", gotoLabel:"Set password + T&C" } ] },
+      { action:"On page load",
+        conditions:[
+          { type:"if", test:"token expired", goto:null, gotoLabel:"Show expired-token fallback", note:"triggers fresh activation email" },
+          { type:"else", goto:null, gotoLabel:"Render hero normally" },
+        ] },
+    ]
+  },
+  {
+    id:"set-password", stage:"auth", task:2, label:"Set password + T&C", route:"/auth/activate",
+    purpose:"Email locked, new password + confirm with strength hints, T&C checkbox. Mints the session on submit.",
+    inbound:[{ from:"activate", label:"From activation landing" }],
+    branches:[
+      { action:"User submits the form",
+        conditions:[
+          { type:"if", test:"enrolments.length === 1", goto:"welcome", gotoLabel:"Welcome (single)" },
+          { type:"else", test:"enrolments.length > 1", goto:"welcome-multi", gotoLabel:"Welcome (multi)" },
+        ] },
+      { action:"Validation",
+        conditions:[
+          { type:"if", test:"password too weak", goto:null, gotoLabel:"Inline error · stay on page" },
+          { type:"if", test:"T&C unchecked", goto:null, gotoLabel:"Submit disabled" },
+        ] },
+    ]
+  },
+  {
+    id:"login", stage:"auth", task:3, label:"Login", route:"/auth/login",
+    purpose:"Returning learner enters email + password. Routes by enrolment count.",
+    inbound:[{ label:"Logout / direct visit" }, { from:"reset-password", label:"After reset" }],
+    branches:[
+      { action:"User submits credentials",
+        conditions:[
+          { type:"if", test:"creds invalid", goto:null, gotoLabel:"Show inline error · stay on page" },
+          { type:"if", test:"enrolments.length === 1", goto:"lms-dashboard", gotoLabel:"LMS course dashboard" },
+          { type:"else", goto:"dashboard-top", gotoLabel:"Top-level dashboard" },
+        ] },
+      { action:"User clicks 'Forgot password'",
+        conditions:[ { type:"plain", goto:"forgot-password", gotoLabel:"Forgot password" } ] },
+    ]
+  },
+  {
+    id:"forgot-password", stage:"auth", task:4, label:"Forgot password", route:"/auth/forgot-password",
+    purpose:"Email field + 'Send reset link' CTA. Issues a short-lived reset token.",
+    inbound:[{ from:"login", label:"'Forgot password' link" }],
+    branches:[
+      { action:"User submits email",
+        conditions:[
+          { type:"plain", goto:"forgot-password-sent", gotoLabel:"Reset link sent confirmation", note:"always confirms regardless of email match — anti-enumeration" }
+        ] },
+    ]
+  },
+  {
+    id:"forgot-password-sent", stage:"auth", task:5, label:"Reset link sent", route:"/auth/forgot-password/sent",
+    purpose:"Static confirmation prompting the learner to check their inbox.",
+    inbound:[{ from:"forgot-password", label:"After submitting email" }],
+    branches:[
+      { action:"User clicks the email link",
+        conditions:[ { type:"plain", goto:"reset-password", gotoLabel:"Reset password" } ] },
+    ]
+  },
+  {
+    id:"reset-password", stage:"auth", task:6, label:"Reset password", route:"/auth/reset-password/abc",
+    purpose:"New password + confirm. Invalidates old sessions on success.",
+    inbound:[{ from:"forgot-password-sent", label:"Reset-link click" }],
+    branches:[
+      { action:"User submits new password",
+        conditions:[
+          { type:"if", test:"token expired/invalid", goto:null, gotoLabel:"Show error + 'Request new link' CTA" },
+          { type:"success", test:"valid", goto:"login", gotoLabel:"Login (with success toast)" },
+        ] },
+    ]
+  },
+
+  /* ── ONBOARDING ───────────────────────────────────────────── */
+  {
+    id:"welcome", stage:"onboarding", task:7, label:"Welcome (single)", route:"/welcome",
+    purpose:"Single-course welcome with a 4-step indicator (Profile → Exam date → Baseline → Done) and a 'Get started' CTA.",
+    inbound:[{ from:"set-password", label:"Single-enrol auto-login" }],
+    branches:[
+      { action:"User clicks 'Get started'",
+        conditions:[ { type:"plain", goto:"onb-profile", gotoLabel:"Step 1 — Profile" } ] },
+    ]
+  },
+  {
+    id:"welcome-multi", stage:"onboarding", task:8, label:"Welcome (multi)", route:"/welcome-multi",
+    purpose:"Variant welcome for learners with multiple enrolments. Pick a course to begin onboarding for.",
+    inbound:[{ from:"set-password", label:"Multi-enrol auto-login" }],
+    branches:[
+      { action:"User picks a course and clicks 'Get started'",
+        conditions:[ { type:"plain", goto:"onb-profile", gotoLabel:"Step 1 — Profile (for chosen course)" } ] },
+    ]
+  },
+  {
+    id:"onb-profile", stage:"onboarding", task:9, label:"Step 1 — Profile", route:"/onboarding/profile",
+    purpose:"Role, years of experience, domain background, weekly study hours, English proficiency. Drives downstream cadence + AI prompts.",
+    inbound:[{ from:"welcome", label:"Get started" }, { from:"welcome-multi", label:"Pick course" }],
+    branches:[
+      { action:"User submits profile",
+        conditions:[ { type:"plain", goto:"onb-exam-date", gotoLabel:"Step 2 — Exam date" } ] },
+    ]
+  },
+  {
+    id:"onb-exam-date", stage:"onboarding", task:10, label:"Step 2 — Exam date", route:"/onboarding/exam-date",
+    purpose:"Date picker + countdown + recommended cadence based on study hours from Step 1.",
+    inbound:[{ from:"onb-profile", label:"Next" }],
+    branches:[
+      { action:"User picks a date",
+        conditions:[
+          { type:"if", test:"date < 2 weeks away", goto:null, gotoLabel:"Show 'too soon — most learners need 4+ weeks' warning · still allow" },
+          { type:"plain", goto:"onb-baseline", gotoLabel:"Step 3 — Baseline mock" }
+        ] },
+    ]
+  },
+  {
+    id:"onb-baseline", stage:"onboarding", task:11, label:"Step 3 — Baseline mock", route:"/onboarding/baseline",
+    purpose:"20-question timed mock to seed the AI gap report. Results displayed broken down by topic cluster.",
+    inbound:[{ from:"onb-exam-date", label:"Next" }],
+    branches:[
+      { action:"User completes the mock",
+        conditions:[ { type:"plain", goto:"onb-complete", gotoLabel:"Step 4 — Ready", note:"baseline score persisted to enrollment" } ] },
+    ]
+  },
+  {
+    id:"onb-complete", stage:"onboarding", task:12, label:"Step 4 — Ready", route:"/onboarding/complete",
+    purpose:"'You're ready' confirmation with a faded dashboard preview behind. Flips enrollment status to 'active'.",
+    inbound:[{ from:"onb-baseline", label:"After submitting mock" }],
+    branches:[
+      { action:"User clicks 'Open my course'",
+        conditions:[ { type:"plain", goto:"lms-dashboard", gotoLabel:"LMS course dashboard" } ] },
+    ]
+  },
+
+  /* ── DASHBOARDS ───────────────────────────────────────────── */
+  {
+    id:"dashboard-top", stage:"dashboard", task:14, label:"Top-level dashboard", route:"/dashboard",
+    purpose:"Multi-enrolment hub. Lists every active course as a card with progress, readiness, and quick links.",
+    inbound:[{ from:"login", label:"Login (multi enrol)" }],
+    branches:[
+      { action:"User picks a course card",
+        conditions:[
+          { type:"if", test:"enrolment.type === 'combo'", goto:"dashboard-multi", gotoLabel:"Combo dashboard (F+P)" },
+          { type:"else", goto:"lms-dashboard", gotoLabel:"LMS course dashboard" }
+        ] },
+      { action:"User clicks 'Progress'",
+        conditions:[ { type:"plain", goto:"dashboard-progress", gotoLabel:"Progress view" } ] },
+    ]
+  },
+  {
+    id:"dashboard-progress", stage:"dashboard", task:16, label:"Progress view", route:"/dashboard/progress",
+    purpose:"Aggregate progress + readiness summary across every enrolment.",
+    inbound:[{ from:"dashboard-top", label:"'Progress' link" }],
+    branches:[
+      { action:"User clicks 'Back to course'",
+        conditions:[ { type:"plain", goto:"lms-dashboard", gotoLabel:"LMS course dashboard" } ] },
+    ]
+  },
+  {
+    id:"dashboard-multi", stage:"dashboard", task:17, label:"Combo dashboard", route:"/dashboard-multi",
+    purpose:"Combo enrolment view (e.g. PRINCE2 F+P). Two stacked sub-sections, two voucher tiles, two readiness banners.",
+    inbound:[{ from:"dashboard-top", label:"Combo course tile", condition:"type=combo" }],
+    branches:[
+      { action:"User clicks F or P sub-section",
+        conditions:[ { type:"plain", goto:"lms-dashboard", gotoLabel:"LMS course dashboard (scoped)" } ] },
+    ]
+  },
+  {
+    id:"lms-dashboard", stage:"dashboard", task:13, label:"LMS course dashboard", route:"/lms/pmp",
+    purpose:"<strong>Central hub.</strong> Sections for Core training, Exam Preparation, Active Learning, and Support. Status banner, voucher tile, readiness card all live here.",
+    inbound:[
+      { label:"Single-enrol login" },
+      { from:"onb-complete", label:"After onboarding" },
+      { from:"dashboard-top", label:"Course pick" },
+      { from:"voucher-scheduled", label:"After booking exam" }
+    ],
+    branches:[
+      { action:"On load — tier check",
+        conditions:[
+          { type:"if", test:"tier === 'bronze'", goto:"bronze-view", gotoLabel:"Bronze locks view" },
+          { type:"else", goto:null, gotoLabel:"Render full dashboard" },
+        ] },
+      { action:"User clicks any content tile",
+        conditions:[
+          { type:"plain", goto:"reference-card", gotoLabel:"Reference card" },
+          { type:"plain", goto:"study-guide", gotoLabel:"Study guide" },
+          { type:"plain", goto:"glossary", gotoLabel:"Glossary" },
+          { type:"plain", goto:"qbank-picker", gotoLabel:"Q-bank picker" },
+          { type:"plain", goto:"mock-intro", gotoLabel:"Mock paper intro" },
+        ] },
+      { action:"User clicks AI section card",
+        conditions:[
+          { type:"if", test:"tier ≥ silver", goto:"ai-section", gotoLabel:"AI section view" },
+          { type:"else", goto:null, gotoLabel:"Show 'Upgrade to Silver' locked-tile modal" },
+        ] },
+      { action:"User clicks a Support tile",
+        conditions:[
+          { type:"plain", goto:"live-training", gotoLabel:"Live training schedule" },
+          { type:"plain", goto:"qa-session", gotoLabel:"Q&A sessions" },
+          { type:"if", test:"tier === 'gold'", goto:"coaching", gotoLabel:"1:1 coaching" },
+          { type:"plain", goto:"support-inbox", gotoLabel:"Support inbox" },
+          { type:"plain", goto:"community", gotoLabel:"Community" },
+          { type:"plain", goto:"cashback", gotoLabel:"Cashback ledger" },
+          { type:"if", test:"tier === 'gold'", goto:"money-back", gotoLabel:"Money-back guarantee" },
+          { type:"plain", goto:"attendance-cert", gotoLabel:"Attendance certificate" },
+        ] },
+      { action:"User clicks the status banner / readiness card",
+        conditions:[ { type:"plain", goto:"readiness", gotoLabel:"Readiness panel" } ] },
+      { action:"User clicks the voucher tile",
+        conditions:[
+          { type:"if", test:"voucher.state === 'unlocked'", goto:"voucher-tile", gotoLabel:"Voucher tile (reveal flow)" },
+          { type:"else", goto:"voucher-tile", gotoLabel:"Voucher tile (locked — see what's left)" },
+        ] },
+    ]
+  },
+  {
+    id:"bronze-view", stage:"dashboard", task:34, tier:"bronze", label:"Bronze locks view", route:"/lms/pmp/bronze-view",
+    purpose:"Bronze-tier variant — AI tiles and Coaching tiles render as locked with 'Upgrade →' CTAs.",
+    inbound:[{ from:"lms-dashboard", label:"Auto-route", condition:"tier=bronze" }],
+    branches:[
+      { action:"User clicks any locked tile",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show tier-mismatch lock modal", note:"see Task 60" } ] },
+    ]
+  },
+
+  /* ── CONTENT ──────────────────────────────────────────────── */
+  {
+    id:"reference-card", stage:"content", task:18, label:"Reference card", route:"/lms/pmp/reference/integration-management",
+    purpose:"Card body with left card list, prev/next, mark-as-read toggle, bookmark icon.",
+    inbound:[{ from:"lms-dashboard", label:"Reference Cards section" }],
+    branches:[
+      { action:"User clicks 'Mark as read'",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Persist read state · emit progress delta" } ] },
+      { action:"User clicks bookmark icon",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Save · appears on /saved" } ] },
+    ]
+  },
+  {
+    id:"study-guide", stage:"content", task:19, label:"Study guide", route:"/lms/pmp/study-guide/pmbok-7",
+    purpose:"Long-form chapter with sticky TOC, anchor jumps, debounced scroll-progress.",
+    inbound:[{ from:"lms-dashboard", label:"Study Guides section" }],
+    branches:[
+      { action:"On scroll",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Debounce write · resume position on return" } ] },
+    ]
+  },
+  {
+    id:"glossary", stage:"content", task:20, label:"Glossary", route:"/lms/pmp/glossary",
+    purpose:"Searchable A–Z term list with expandable definitions.",
+    inbound:[{ from:"lms-dashboard", label:"Glossary tile" }],
+    branches:[
+      { action:"User types in search",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Filter terms inline" } ] },
+    ]
+  },
+  {
+    id:"qbank-picker", stage:"content", task:21, label:"Q-bank topic picker", route:"/lms/pmp/question-bank",
+    purpose:"Topic-cluster picker with difficulty / wrong-only filters and session length selector.",
+    inbound:[
+      { from:"lms-dashboard", label:"Question Bank card" },
+      { from:"readiness-qbank", label:"Drill weakest cluster" }
+    ],
+    branches:[
+      { action:"User clicks 'Start session'",
+        conditions:[ { type:"plain", goto:"qbank-session", gotoLabel:"Q-bank session runner", note:"builds queue server-side" } ] },
+    ]
+  },
+  {
+    id:"qbank-session", stage:"content", task:22, label:"Q-bank session runner", route:"/lms/pmp/question-bank/session/s1",
+    purpose:"One question at a time with reveal-explanation. Posts each answer for correctness + explanation.",
+    inbound:[{ from:"qbank-picker", label:"After starting a session" }],
+    branches:[
+      { action:"User submits an answer",
+        conditions:[
+          { type:"if", test:"last question", goto:"qbank-result", gotoLabel:"Session results" },
+          { type:"else", goto:null, gotoLabel:"Reveal explanation · advance pointer" }
+        ] },
+    ]
+  },
+  {
+    id:"qbank-result", stage:"content", task:23, label:"Q-bank results", route:"/lms/pmp/question-bank/session/s1/result",
+    purpose:"Per-topic breakdown, flagged/wrong lists, review CTAs.",
+    inbound:[{ from:"qbank-session", label:"After last question" }],
+    branches:[
+      { action:"User clicks 'Back to topics'",
+        conditions:[ { type:"plain", goto:"qbank-picker", gotoLabel:"Q-bank picker" } ] },
+    ]
+  },
+  {
+    id:"mock-intro", stage:"content", task:24, label:"Mock paper intro", route:"/lms/pmp/mock-exam/2",
+    purpose:"Paper format, Q count, time limit, pass mark, warnings before starting.",
+    inbound:[
+      { from:"lms-dashboard", label:"Mock Exams card" },
+      { from:"readiness-mocks", label:"'Start next mock'" }
+    ],
+    branches:[
+      { action:"User clicks 'Start'",
+        conditions:[
+          { type:"if", test:"paper.format === 'open-book'", goto:"mock-run-openbook", gotoLabel:"Open-book runner" },
+          { type:"else", goto:"mock-run", gotoLabel:"Closed-book runner" }
+        ] },
+    ]
+  },
+  {
+    id:"mock-run", stage:"content", task:25, label:"Mock runner (closed-book)", route:"/lms/pmp/mock-exam/2/run",
+    purpose:"Sticky timer, question navigator, flag, auto-save. Server-authoritative timer.",
+    inbound:[{ from:"mock-intro", label:"Closed-book start" }],
+    branches:[
+      { action:"User clicks 'Submit'",
+        conditions:[
+          { type:"plain", goto:null, gotoLabel:"Show submit-confirmation modal (Task 32)" },
+          { type:"if", test:"confirmed", goto:"mock-result", gotoLabel:"Mock results" }
+        ] },
+      { action:"Timer reaches 0",
+        conditions:[ { type:"plain", goto:"mock-result", gotoLabel:"Auto-submit · Mock results" } ] },
+    ]
+  },
+  {
+    id:"mock-run-openbook", stage:"content", task:33, label:"Open-book runner", route:"/lms/pmp/mock-exam/2/run-openbook",
+    purpose:"Scenario block + collapsible 'Open the manual' sidebar for Practitioner objective testing.",
+    inbound:[{ from:"mock-intro", label:"Open-book start" }],
+    branches:[
+      { action:"User clicks 'Submit'",
+        conditions:[ { type:"plain", goto:"mock-result", gotoLabel:"Mock results", note:"same submit modal as closed-book" } ] },
+    ]
+  },
+  {
+    id:"mock-result", stage:"content", task:26, label:"Mock results", route:"/lms/pmp/mock-exam/2/result",
+    purpose:"Pass/fail vs pass mark, per-topic chart, full question review. Recomputes readiness on save.",
+    inbound:[
+      { from:"mock-run", label:"After submit" },
+      { from:"mock-run-openbook", label:"After submit" }
+    ],
+    branches:[
+      { action:"On save",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Recompute readiness · update voucher gate" } ] },
+    ]
+  },
+
+  /* ── AI ───────────────────────────────────────────────────── */
+  {
+    id:"ai-section", stage:"ai", task:38, tier:"silver", label:"AI section view", route:"/lms/pmp/ai",
+    purpose:"Grid of AI tools split into 'Exam Prep AI' and 'Active Learning AI' with last-used and freshness stamps.",
+    inbound:[{ from:"lms-dashboard", label:"AI section card", condition:"tier≥silver" }],
+    branches:[
+      { action:"User picks any tool",
+        conditions:[
+          { type:"plain", goto:"ai-study-plan", gotoLabel:"AI study plan" },
+          { type:"plain", goto:"ai-gap-report", gotoLabel:"Gap report" },
+          { type:"plain", goto:"ai-flashcards", gotoLabel:"Adaptive flashcards" },
+          { type:"plain", goto:"ai-concept-coach", gotoLabel:"Concept coach" },
+          { type:"if", test:"tier==='gold' && level==='practitioner'", goto:"ai-scenario-coach", gotoLabel:"Scenario coach" },
+          { type:"plain", goto:"ai-interview-coach", gotoLabel:"Interview coach" },
+          { type:"plain", goto:"ai-daily-challenge", gotoLabel:"Daily challenge" },
+        ] },
+    ]
+  },
+  {
+    id:"ai-study-plan", stage:"ai", task:39, tier:"silver", label:"AI study plan", route:"/lms/pmp/ai/study-plan",
+    purpose:"Vertical calendar to exam date with daily activities. Silver vs Gold variants.",
+    inbound:[{ from:"ai-section", label:"Open study plan" }],
+    branches:[
+      { action:"User clicks 'Re-generate plan'",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show plan-diff modal · confirm to overwrite (Task 47)" } ] },
+    ]
+  },
+  {
+    id:"ai-gap-report", stage:"ai", task:40, tier:"silver", label:"AI gap report", route:"/lms/pmp/ai/gap-report",
+    purpose:"Topic-cluster strength chart + 3–5 prioritised actions + narrative summary.",
+    inbound:[
+      { from:"ai-section", label:"Open gap report" },
+      { from:"readiness-gap-reports", label:"Ack latest" }
+    ],
+    branches:[
+      { action:"User clicks 'Acknowledge'",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Persist ack · credits +15 to readiness signal" } ] },
+    ]
+  },
+  {
+    id:"ai-flashcards", stage:"ai", task:41, tier:"silver", label:"Adaptive flashcards", route:"/lms/pmp/ai/flashcards",
+    purpose:"Card front/back flip with Again/Hard/Good/Easy self-rate (SM-2). Drill Mode variant for Gold.",
+    inbound:[{ from:"ai-section", label:"Open flashcards" }],
+    branches:[
+      { action:"User rates a card",
+        conditions:[
+          { type:"if", test:"rating === 'Again'", goto:null, gotoLabel:"Repeat in 1 min" },
+          { type:"if", test:"rating === 'Hard'", goto:null, gotoLabel:"Repeat in 10 min" },
+          { type:"if", test:"rating === 'Good'", goto:null, gotoLabel:"Schedule per SM-2 interval" },
+          { type:"if", test:"rating === 'Easy'", goto:null, gotoLabel:"Schedule per SM-2 × 1.3" },
+        ] },
+    ]
+  },
+  {
+    id:"ai-concept-coach", stage:"ai", task:42, tier:"silver", label:"Concept coach", route:"/lms/pmp/ai/concept-coach",
+    purpose:"Chat with citation links into Stage 3 content.",
+    inbound:[{ from:"ai-section", label:"Open concept coach" }],
+    branches:[
+      { action:"User asks a question",
+        conditions:[
+          { type:"if", test:"out-of-syllabus", goto:null, gotoLabel:"Show refusal state with 3 in-scope suggestions (Task 46)" },
+          { type:"if", test:"daily token cap hit", goto:null, gotoLabel:"Show cap-reached state (Task 48)" },
+          { type:"else", goto:null, gotoLabel:"Answer with citations" }
+        ] },
+    ]
+  },
+  {
+    id:"ai-scenario-coach", stage:"ai", task:43, tier:"gold", label:"Scenario coach", route:"/lms/pmp/ai/scenario-coach",
+    purpose:"Scenario picker → 4–6 turn branching dialogue → rubric summary. Practitioner-only.",
+    inbound:[{ from:"ai-section", label:"Open scenario coach", condition:"tier=gold & practitioner" }],
+    branches:[
+      { action:"User completes scenario",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show rubric summary · save to coaching log" } ] },
+    ]
+  },
+  {
+    id:"ai-interview-coach", stage:"ai", task:44, tier:"silver", label:"Interview coach", route:"/lms/pmp/ai/interview-coach",
+    purpose:"Role picker, 5–10 mock questions, per-answer feedback with STAR rubric.",
+    inbound:[{ from:"ai-section", label:"Open interview coach" }],
+    branches:[
+      { action:"User submits an answer",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Score · feedback · next question" } ] },
+    ]
+  },
+  {
+    id:"ai-daily-challenge", stage:"ai", task:45, tier:"silver", label:"Daily AI challenge", route:"/lms/pmp/ai/daily-challenge",
+    purpose:"Daily scenario with 'Reveal model answer' and optional cohort comments.",
+    inbound:[{ from:"ai-section", label:"Open daily challenge" }],
+    branches:[
+      { action:"User submits answer",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Reveal model answer · open cohort comments" } ] },
+    ]
+  },
+
+  /* ── SUPPORT ──────────────────────────────────────────────── */
+  {
+    id:"live-training", stage:"support", task:50, label:"Live training schedule", route:"/lms/pmp/live-training",
+    purpose:"Calendar of sessions with timezone, instructor, capacity, RSVP states (Open/Joined/Full/Waitlist/LIVE).",
+    inbound:[{ from:"lms-dashboard", label:"Live Training tile" }],
+    branches:[
+      { action:"User clicks a session",
+        conditions:[ { type:"plain", goto:"live-session-detail", gotoLabel:"Session detail" } ] },
+      { action:"User clicks 'Reschedule' inside 24h cutoff",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show reschedule modal (Task 60)" } ] },
+    ]
+  },
+  {
+    id:"live-session-detail", stage:"support", task:51, label:"Live session detail", route:"/lms/pmp/live-training/s-25-1",
+    purpose:"Topic, objectives, agenda, instructor bio, pre-reading deep-links, 'Join session' CTA.",
+    inbound:[
+      { from:"live-training", label:"Session card" },
+      { from:"qa-session", label:"Q&A slot click" }
+    ],
+    branches:[
+      { action:"On session window open",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show 'Join session' CTA (live)" } ] },
+      { action:"User clicks 'Cancel RSVP'",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Confirm + free cancel (>24h)" } ] },
+    ]
+  },
+  {
+    id:"qa-session", stage:"support", task:52, label:"Q&A drop-in slots", route:"/lms/pmp/qa-session",
+    purpose:"Recurring weekly schedule + upcoming slots list with instructor on duty and RSVP.",
+    inbound:[{ from:"lms-dashboard", label:"Q&A tile" }],
+    branches:[
+      { action:"User clicks a slot",
+        conditions:[ { type:"plain", goto:"live-session-detail", gotoLabel:"Session detail" } ] },
+    ]
+  },
+  {
+    id:"coaching", stage:"support", task:53, tier:"gold", label:"1:1 coaching", route:"/lms/pmp/coaching",
+    purpose:"Credits, 4 coach cards, 7-day slot grid, pre-call prep questionnaire, sticky booking summary.",
+    inbound:[{ from:"lms-dashboard", label:"Coaching tile", condition:"tier=gold" }],
+    branches:[
+      { action:"User cancels a booking",
+        conditions:[
+          { type:"if", test:"hoursToSession < 12", goto:null, gotoLabel:"Show 'cancel & forfeit credit' modal (Task 60)" },
+          { type:"else", goto:null, gotoLabel:"Silent cancel · keep credit" }
+        ] },
+    ]
+  },
+  {
+    id:"support-inbox", stage:"support", task:54, label:"Support inbox", route:"/lms/pmp/support",
+    purpose:"Open/resolved tickets with tier-aware channel badges (email/chat/phone), composer.",
+    inbound:[
+      { from:"lms-dashboard", label:"Support tile" },
+      { from:"money-back", label:"Trust & Safety questions" },
+      { from:"cashback", label:"Payout disputes" }
+    ],
+    branches:[
+      { action:"User clicks a ticket",
+        conditions:[ { type:"plain", goto:"ticket-thread", gotoLabel:"Ticket thread" } ] },
+      { action:"User submits new ticket",
+        conditions:[
+          { type:"if", test:"channel === 'phone' && tier !== 'gold'", goto:null, gotoLabel:"Tier-locked · show upgrade modal" },
+          { type:"else", goto:"ticket-thread", gotoLabel:"New ticket thread" }
+        ] },
+      { action:"Agent escalates voucher override",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show early-redeem override modal (Task 70)" } ] },
+    ]
+  },
+  {
+    id:"ticket-thread", stage:"support", task:55, label:"Ticket thread", route:"/lms/pmp/support/TCK-4821",
+    purpose:"Message thread with attachments, system events, channel tag per message. 'Call us now' button when Gold + business hours.",
+    inbound:[{ from:"support-inbox", label:"Click a ticket row" }],
+    branches:[
+      { action:"On load — phone availability",
+        conditions:[
+          { type:"if", test:"tier === 'gold' && phoneOnline", goto:null, gotoLabel:"Show green 'Call us now' button" },
+          { type:"else", goto:null, gotoLabel:"Disable phone CTA" }
+        ] },
+      { action:"User marks resolved",
+        conditions:[ { type:"plain", goto:"support-inbox", gotoLabel:"Inbox · ticket archived" } ] },
+    ]
+  },
+  {
+    id:"community", stage:"support", task:56, label:"Community", route:"/lms/pmp/community",
+    purpose:"Landing with channel list, code of conduct, featured discussions, 'Join the community' CTA.",
+    inbound:[{ from:"lms-dashboard", label:"Community tile" }],
+    branches:[
+      { action:"User clicks 'Join'",
+        conditions:[
+          { type:"if", test:"code-of-conduct checkbox unchecked", goto:null, gotoLabel:"CTA disabled" },
+          { type:"else", goto:null, gotoLabel:"Mint community profile · external redirect" }
+        ] },
+    ]
+  },
+  {
+    id:"cashback", stage:"support", task:57, label:"Cashback ledger", route:"/lms/pmp/cashback",
+    purpose:"Available balance, accrual events, payout history, referral share. Payout request CTA.",
+    inbound:[{ from:"lms-dashboard", label:"Cashback tile" }],
+    branches:[
+      { action:"User clicks 'Request payout'",
+        conditions:[
+          { type:"if", test:"balance.available < ₹500", goto:null, gotoLabel:"CTA disabled · 'min ₹500'" },
+          { type:"else", goto:null, gotoLabel:"Confirm method · queue payout" }
+        ] },
+    ]
+  },
+  {
+    id:"money-back", stage:"support", task:58, tier:"gold", label:"Money-back guarantee", route:"/lms/pmp/money-back",
+    purpose:"Terms, gate-progress checklist mirror, claim form CTA. Claim is locked until exam result is failed.",
+    inbound:[{ from:"lms-dashboard", label:"Money-back tile", condition:"tier=gold" }],
+    branches:[
+      { action:"On load — claim eligibility",
+        conditions:[
+          { type:"if", test:"claimState === 'exam-pending'", goto:null, gotoLabel:"Claim CTA locked (dashed border + lock icon)" },
+          { type:"if", test:"claimState === 'exam-failed'", goto:null, gotoLabel:"Unlock claim CTA · pre-fill form" },
+          { type:"if", test:"claimState === 'ineligible'", goto:null, gotoLabel:"Show 'guarantee forfeited' state (override path)" }
+        ] },
+    ]
+  },
+  {
+    id:"attendance-cert", stage:"support", task:59, label:"Attendance certificate", route:"/lms/pmp/certificates/attendance",
+    purpose:"PDF preview with download + LinkedIn share. Auto-generated when attendance crosses 80%.",
+    inbound:[{ from:"lms-dashboard", label:"Attendance Cert tile" }],
+    branches:[
+      { action:"On load — attendance check",
+        conditions:[
+          { type:"if", test:"attendancePct < 80", goto:null, gotoLabel:"Show 'X% more to unlock' state · hide download" },
+          { type:"else", goto:null, gotoLabel:"Show full certificate + Download + Share" }
+        ] },
+    ]
+  },
+
+  /* ── READINESS ────────────────────────────────────────────── */
+  {
+    id:"readiness", stage:"readiness", task:61, label:"Readiness panel", route:"/lms/pmp/readiness",
+    purpose:"<strong>Composite 0–100</strong> across mocks, Q-bank, gap acks. Projection card + trend chart + actions list. Tier-aware weighting (Bronze 60/40, Silver 45/35/20, Gold 40/30/30).",
+    inbound:[{ from:"lms-dashboard", label:"Banner / readiness card" }],
+    branches:[
+      { action:"On load — gate evaluation",
+        conditions:[
+          { type:"if", test:"composite ≥ 75 && all 4 gates met", goto:"voucher-tile", gotoLabel:"Voucher tile (unlock)" },
+          { type:"if", test:"composite ≥ 70 && gates not blocked", goto:null, gotoLabel:"Render 'almost' state in voucher tile" },
+          { type:"else", goto:null, gotoLabel:"Render locked state with points-to-unlock" }
+        ] },
+      { action:"User clicks an input drill-down",
+        conditions:[
+          { type:"plain", goto:"readiness-mocks", gotoLabel:"Mocks drill-down" },
+          { type:"plain", goto:"readiness-qbank", gotoLabel:"Q-bank coverage" },
+          { type:"plain", goto:"readiness-gap-reports", gotoLabel:"Gap-report acks" }
+        ] },
+    ]
+  },
+  {
+    id:"readiness-mocks", stage:"readiness", task:62, label:"Mocks drill-down", route:"/lms/pmp/readiness/mocks",
+    purpose:"Per-paper scores, threshold checks (pass/target), remaining-attempts, recommended-next-mock CTA.",
+    inbound:[{ from:"readiness", label:"Open Mocks input card" }],
+    branches:[
+      { action:"User clicks 'Start next mock'",
+        conditions:[ { type:"plain", goto:"mock-intro", gotoLabel:"Mock paper intro" } ] },
+    ]
+  },
+  {
+    id:"readiness-qbank", stage:"readiness", task:63, label:"Q-bank coverage", route:"/lms/pmp/readiness/qbank",
+    purpose:"Topic-cluster heatmap with <50% coverage floor highlighted in red.",
+    inbound:[{ from:"readiness", label:"Open Q-bank input card" }],
+    branches:[
+      { action:"On load — floor check",
+        conditions:[
+          { type:"if", test:"any cluster coverage < 50%", goto:null, gotoLabel:"Block voucher gate · render 'Cover gap' red CTA" },
+          { type:"else", goto:null, gotoLabel:"All cells clear · drill suggestions normal" }
+        ] },
+      { action:"User clicks 'Drill cluster'",
+        conditions:[ { type:"plain", goto:"qbank-picker", gotoLabel:"Q-bank picker (pre-filtered)" } ] },
+    ]
+  },
+  {
+    id:"readiness-gap-reports", stage:"readiness", task:64, label:"Gap-report acks", route:"/lms/pmp/readiness/gap-reports",
+    purpose:"Timeline of past gap reports with ack state (unacked/acked/acted/stale).",
+    inbound:[{ from:"readiness", label:"Open Gap-acks input card" }],
+    branches:[
+      { action:"On load — latest report check",
+        conditions:[
+          { type:"if", test:"latest report unacked", goto:null, gotoLabel:"Show 'GATING' red flag on the card" },
+          { type:"else", goto:null, gotoLabel:"Show ack date + acted progress" }
+        ] },
+      { action:"User clicks 'Acknowledge'",
+        conditions:[ { type:"plain", goto:"ai-gap-report", gotoLabel:"AI gap report · ack flow" } ] },
+    ]
+  },
+
+  /* ── VOUCHER ──────────────────────────────────────────────── */
+  {
+    id:"voucher-tile", stage:"voucher", task:65, label:"Voucher tile", route:"/lms/pmp/voucher",
+    purpose:"Showcase of 4 voucher states: Locked, Almost, Unlocked (glowing), Redeemed (dark navy with code).",
+    inbound:[
+      { from:"lms-dashboard", label:"Voucher tile" },
+      { from:"readiness", label:"Gate cleared", condition:"composite≥75 & gates met" }
+    ],
+    branches:[
+      { action:"User clicks 'Redeem voucher' on the unlocked tile",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show voucher reveal modal (Task 66)" } ] },
+      { action:"After reveal — 'Open booking page'",
+        conditions:[ { type:"plain", goto:"voucher-booking", gotoLabel:"PMI booking handoff" } ] },
+      { action:"User has combo enrolment",
+        conditions:[ { type:"if", test:"type === 'combo'", goto:"voucher-combo", gotoLabel:"Combo voucher view" } ] },
+      { action:"Support agent triggers override",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Show early-redeem override modal (Task 70) · forfeits guarantee" } ] },
+    ]
+  },
+  {
+    id:"voucher-booking", stage:"voucher", task:67, label:"PMI booking handoff", route:"/lms/pmp/voucher/booking",
+    purpose:"PMI handoff: hero with logo, voucher card with code, 4-step guide, FAQ, support card.",
+    inbound:[
+      { from:"voucher-tile", label:"After reveal" },
+      { from:"voucher-combo", label:"Redeem F or P leg" }
+    ],
+    branches:[
+      { action:"User clicks 'Open PMI booking page'",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"External: opens PMI portal in new tab" } ] },
+      { action:"User clicks 'Record exam date' (already booked)",
+        conditions:[ { type:"plain", goto:"voucher-scheduled", gotoLabel:"Exam scheduled state" } ] },
+    ]
+  },
+  {
+    id:"voucher-scheduled", stage:"voucher", task:68, label:"Exam scheduled", route:"/lms/pmp/voucher/scheduled",
+    purpose:"Form variant (date-capture) and confirmed variant (countdown + exam-day checklist + taper plan + banner-mirror note).",
+    inbound:[{ from:"voucher-booking", label:"After recording exam date" }],
+    branches:[
+      { action:"On load — booking state",
+        conditions:[
+          { type:"if", test:"booking exists", goto:null, gotoLabel:"Render confirmed state (countdown ring + checklist)" },
+          { type:"else", goto:null, gotoLabel:"Render date-capture form" }
+        ] },
+      { action:"On save",
+        conditions:[ { type:"plain", goto:"lms-dashboard", gotoLabel:"Dashboard (banner now shows 'Exam: <date>')" } ] },
+    ]
+  },
+  {
+    id:"voucher-combo", stage:"voucher", task:69, label:"Combo voucher (F+P)", route:"/lms/pmp/voucher/combo",
+    purpose:"Side-by-side Foundation + Practitioner voucher tiles with independent gate states.",
+    inbound:[
+      { from:"voucher-tile", label:"Combo enrolment", condition:"type=combo" },
+      { from:"dashboard-multi", label:"Voucher section" }
+    ],
+    branches:[
+      { action:"User clicks 'Redeem' on F or P leg",
+        conditions:[
+          { type:"if", test:"that leg's gate met", goto:"voucher-booking", gotoLabel:"Booking (for that level)" },
+          { type:"else", goto:null, gotoLabel:"Tile stays in locked state · show 'See what's left' CTA" }
+        ] },
+    ]
+  },
+
+  /* ── EXAM (Stage 7) ───────────────────────────────────────── */
+  {
+    id:"exam-day-prep", stage:"exam", task:71, label:"Exam day prep", route:"/lms/pmp/exam-day",
+    purpose:"Countdown + 10-item day-of checklist grouped by Identity, Tech, Environment, Policies. Lists PMI exam policies and watch-outs.",
+    inbound:[
+      { from:"voucher-scheduled", label:"Banner deep-link as exam date nears" },
+      { from:"lms-dashboard", label:"Banner / exam day card" }
+    ],
+    branches:[
+      { action:"On load — count down to exam",
+        conditions:[
+          { type:"if", test:"minutes-to-start ≤ 30", goto:"exam-day-standby", gotoLabel:"Standby surface (study tools paused)" },
+          { type:"else", goto:null, gotoLabel:"Render countdown + checklist normally" }
+        ] },
+      { action:"User clicks 'See standby surface'",
+        conditions:[ { type:"plain", goto:"exam-day-standby", gotoLabel:"Standby (preview)" } ] },
+    ]
+  },
+  {
+    id:"exam-day-standby", stage:"exam", task:72, label:"Exam day · standby", route:"/lms/pmp/exam-day/active",
+    purpose:"Calm centered surface during the exam window. Study tools are paused. Big green 'Join exam now' CTA when window is live, yellow countdown when 'soon'.",
+    inbound:[{ from:"exam-day-prep", label:"Auto-route 30 min before slot" }],
+    branches:[
+      { action:"On load — window state",
+        conditions:[
+          { type:"if", test:"window open", goto:null, gotoLabel:"Show green 'Join exam now' button (opens PMI portal in new tab)" },
+          { type:"else", goto:null, gotoLabel:"Show big countdown · keep tools paused" }
+        ] },
+      { action:"After exam completes",
+        conditions:[ { type:"plain", goto:"outcome-record", gotoLabel:"Record exam outcome" } ] },
+    ]
+  },
+  {
+    id:"outcome-record", stage:"exam", task:73, label:"Record exam outcome", route:"/lms/pmp/exam-result/record",
+    purpose:"Pass/fail picker tiles + form (date, score, booking ref, delivery method, notes, proof upload). Routes to the right post-exam path.",
+    inbound:[
+      { from:"exam-day-standby", label:"After exam window closes" },
+      { from:"lms-dashboard", label:"'Record outcome' banner CTA" }
+    ],
+    branches:[
+      { action:"User saves outcome",
+        conditions:[
+          { type:"if", test:"outcome === 'pass'", goto:"pass-certificate", gotoLabel:"Pass certificate page" },
+          { type:"if", test:"outcome === 'fail' && tier === 'gold'", goto:"fail-outcome", gotoLabel:"Fail outcome (retake + claim)" },
+          { type:"if", test:"outcome === 'fail' && tier === 'silver'", goto:"fail-outcome", gotoLabel:"Fail outcome (retake only)" },
+          { type:"else", test:"outcome === 'fail' && tier === 'bronze'", goto:"fail-outcome", gotoLabel:"Fail outcome (re-purchase prompt)" }
+        ] },
+    ]
+  },
+  {
+    id:"pass-certificate", stage:"exam", task:74, label:"Pass certificate", route:"/lms/pmp/certificate",
+    purpose:"Blue-themed certificate frame mirroring PMI styling — learner name, score (AT/AT/T), valid-through date, dashed seal, cursive signatures. Download PDF + LinkedIn share in the aside.",
+    inbound:[{ from:"outcome-record", label:"Saved as pass" }],
+    branches:[
+      { action:"User clicks 'Share on LinkedIn'",
+        conditions:[ { type:"plain", goto:"pass-share", gotoLabel:"Social share" } ] },
+      { action:"User clicks 'Next certifications'",
+        conditions:[ { type:"plain", goto:"pass-pathways", gotoLabel:"Post-cert pathways" } ] },
+      { action:"User clicks 'Renewal tracker'",
+        conditions:[ { type:"plain", goto:"pass-renewal", gotoLabel:"Renewal cycle tracker" } ] },
+    ]
+  },
+  {
+    id:"pass-share", stage:"exam", task:75, label:"Social share", route:"/lms/pmp/share",
+    purpose:"Three pre-built share cards: LinkedIn (post + profile cert), X (280-char), WhatsApp (chat bubble). Referral code auto-embedded in every share.",
+    inbound:[{ from:"pass-certificate", label:"'Share on LinkedIn' CTA" }],
+    branches:[
+      { action:"User clicks 'Post to LinkedIn'",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Opens LinkedIn share dialog · adds cert to profile" } ] },
+      { action:"Friend uses your referral code",
+        conditions:[ { type:"plain", goto:"cashback", gotoLabel:"Cashback ledger (+₹600 credit)" } ] },
+    ]
+  },
+  {
+    id:"pass-pathways", stage:"exam", task:76, label:"Post-cert pathways", route:"/lms/pmp/pathways",
+    purpose:"6 curated next certifications (PgMP / PMI-ACP / PMI-RMP / PRINCE2 Practitioner / ITIL 4 DPI / Lean Six Sigma BB) with Why-match grounded in learner signals. Top match badged.",
+    inbound:[{ from:"pass-certificate", label:"'Next certifications' link" }],
+    branches:[
+      { action:"User clicks any pathway",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"External — invensislearning.com (15% alumni rate applied)" } ] },
+    ]
+  },
+  {
+    id:"pass-renewal", stage:"exam", task:77, label:"Renewal tracker", route:"/lms/pmp/renewal",
+    purpose:"PDU tracker for 3-year cycle (60 PDUs needed). Education + Giving back category bars, recent activity log auto-synced from PMI CCR, ways-to-earn sidebar.",
+    inbound:[{ from:"pass-certificate", label:"'Renewal tracker' link" }],
+    branches:[
+      { action:"On load — pacing check",
+        conditions:[
+          { type:"if", test:"PDU progress ≥ cycle progress - 5%", goto:null, gotoLabel:"Show 'On track' green pill" },
+          { type:"else", goto:null, gotoLabel:"Show 'Behind cycle' red pill + nudge CTAs" }
+        ] },
+      { action:"PDU activity logged on PMI portal",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Auto-sync · update progress bar" } ] },
+    ]
+  },
+  {
+    id:"fail-outcome", stage:"exam", task:78, label:"Fail outcome view", route:"/lms/pmp/exam-result",
+    purpose:"Empathetic landing showing score vs pass mark, weakest cluster, and tier-aware recovery paths side-by-side: Retake + (Gold only) Money-back claim.",
+    inbound:[{ from:"outcome-record", label:"Saved as fail" }],
+    branches:[
+      { action:"User picks a path",
+        conditions:[
+          { type:"if", test:"tier === 'gold'", goto:"fail-retake", gotoLabel:"Retake training (Recommended)" },
+          { type:"if", test:"tier === 'gold'", goto:"fail-claim", gotoLabel:"Money-back claim (Gate-honoured)" },
+          { type:"if", test:"tier === 'silver'", goto:"fail-retake", gotoLabel:"Retake training (1× free in 90 days)" },
+          { type:"else", test:"tier === 'bronze'", goto:null, gotoLabel:"External — re-enrol at alumni rate" }
+        ] },
+    ]
+  },
+  {
+    id:"fail-retake", stage:"exam", task:79, label:"Retake training booking", route:"/lms/pmp/retake",
+    purpose:"180-day window banner, 3-cohort picker with capacity bars, retake credit ledger (training/Q-bank boost/extra mocks/coaching), 6-week taper plan.",
+    inbound:[{ from:"fail-outcome", label:"'Book retake training' CTA" }],
+    branches:[
+      { action:"User books a cohort",
+        conditions:[ { type:"plain", goto:"live-training", gotoLabel:"Live training schedule (cohort visible)" } ] },
+      { action:"User reconsiders",
+        conditions:[ { type:"plain", goto:"fail-claim", gotoLabel:"Switch to claim instead (forfeits retake voucher)" } ] },
+    ]
+  },
+  {
+    id:"fail-claim", stage:"exam", task:80, tier:"gold", label:"Money-back claim form", route:"/lms/pmp/money-back/claim",
+    purpose:"Refund-amount green hero (net of cashback), 6-item gate-honoured snapshot mirror, payout method radios, required proof upload, two confirmation checkboxes, danger Submit button.",
+    inbound:[{ from:"fail-outcome", label:"'Open claim form' CTA", condition:"tier=gold" }],
+    branches:[
+      { action:"On load — gate audit",
+        conditions:[
+          { type:"if", test:"all 6 gate items met at redemption", goto:null, gotoLabel:"Enable Submit · auto-approve path" },
+          { type:"else", goto:null, gotoLabel:"Show 'Gate failed' red pill · Submit disabled" }
+        ] },
+      { action:"User submits claim",
+        conditions:[ { type:"plain", goto:"fail-refund-status", gotoLabel:"Refund status timeline" } ] },
+    ]
+  },
+  {
+    id:"fail-refund-status", stage:"exam", task:81, label:"Refund status timeline", route:"/lms/pmp/money-back/status/CLM-2026-7841",
+    purpose:"Dark refund hero, 4-step timeline with state-colored dots (Submitted → Verified → Approved → Refunded), dispute callout when rejected, audit receipt + what-happens-after sidebar.",
+    inbound:[{ from:"fail-claim", label:"After submitting" }],
+    branches:[
+      { action:"On step transition",
+        conditions:[
+          { type:"if", test:"step === 'refunded'", goto:"closed-terminal", gotoLabel:"Closed (refunded) terminal state" },
+          { type:"if", test:"step === 'rejected'", goto:null, gotoLabel:"Show dispute callout · link to support" },
+          { type:"else", goto:null, gotoLabel:"Continue updating timeline (auto-poll)" }
+        ] },
+    ]
+  },
+  {
+    id:"closed-terminal", stage:"exam", task:82, label:"Closed enrollment terminal", route:"/lms/pmp/closed",
+    purpose:"Two variants: PASSED (golden hero + trophy + Download/Share/Renewal) or REFUNDED (dark hero + refund card + re-enrol-at-alumni-rate). Both show journey-in-numbers, pathways cross-sell, keep-vs-archive split.",
+    inbound:[
+      { from:"pass-renewal", label:"Long after pass" },
+      { from:"fail-refund-status", label:"Refund processed" }
+    ],
+    branches:[
+      { action:"State on load",
+        conditions:[
+          { type:"if", test:"enrolment.state === 'passed'", goto:null, gotoLabel:"Render golden Passed variant" },
+          { type:"else", test:"enrolment.state === 'refunded'", goto:null, gotoLabel:"Render dark Refunded variant" }
+        ] },
+      { action:"User clicks 'Join alumni community'",
+        conditions:[ { type:"plain", goto:"community", gotoLabel:"Community (alumni access)" } ] },
+      { action:"User clicks a cross-sell path",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"External — invensislearning.com (alumni rate)" } ] },
+    ]
+  },
+];
+
+/* ─── Render ───────────────────────────────────────────────── */
+
+const pageMap = new Map(PAGES.map(p => [p.id, p]));
+
+const root = document.getElementById("root");
+
+STAGES.forEach(stage => {
+  const stagePages = PAGES.filter(p => p.stage === stage.id);
+  if (stagePages.length === 0) return;
+
+  const section = document.createElement("section");
+  section.className = "stage " + stage.id;
+  section.id = stage.id;
+  section.innerHTML = `
+    <header>
+      <h2>${stage.icon} ${stage.label}</h2>
+      <small>${stage.sub} · ${stagePages.length} pages</small>
+    </header>
+  `;
+  stagePages.forEach(p => section.appendChild(renderPage(p)));
+  root.appendChild(section);
+});
+
+function renderPage(p) {
+  const art = document.createElement("article");
+  art.className = "page " + p.stage;
+  art.id = "page-" + p.id;
+
+  const inboundHtml = p.inbound && p.inbound.length
+    ? `<div class="inbound"><strong>From:</strong>${p.inbound.map(i =>
+        i.from
+          ? ` <a href="#page-${i.from}">${pageMap.get(i.from)?.label ?? i.from}</a> (${i.label})`
+          : ` <span>${i.label}</span>`
+      ).join(" · ")}</div>`
+    : "";
+
+  const branchesHtml = (p.branches || []).map(b => {
+    const condsHtml = b.conditions.map(c => {
+      if (c.type === "plain") {
+        return `<div class="out-row">
+          ${c.goto
+            ? `<a href="#page-${c.goto}">${c.gotoLabel}</a>`
+            : `<span>${c.gotoLabel}</span>`}
+          ${c.note ? `<span class="note">— ${c.note}</span>` : ""}
+        </div>`;
+      }
+      const diamondClass = c.type === "else" ? "else" : (c.type === "success" ? "success" : "");
+      const testText = c.type === "else" ? "else" : (c.test ?? "");
+      return `<div class="cond">
+        <span class="diamond ${diamondClass}"></span>
+        <span class="test ${diamondClass}">${testText}</span>
+        <span class="goto">
+          ${c.goto
+            ? `<a href="#page-${c.goto}">${c.gotoLabel}</a>`
+            : c.gotoLabel}
+          ${c.note ? `<span class="note">— ${c.note}</span>` : ""}
+        </span>
+      </div>`;
+    }).join("");
+
+    return `<div class="branch">
+      <div class="branch-action">${b.action}</div>
+      ${b.conditions.some(c => c.type !== "plain")
+        ? `<div class="conditions">${condsHtml}</div>`
+        : condsHtml}
+    </div>`;
+  }).join("");
+
+  art.innerHTML = `
+    <header class="page-head">
+      <h3>
+        <span class="icon">${STAGES.find(s => s.id === p.stage).icon}</span>
+        ${p.label}
+      </h3>
+      <div class="meta">
+        <a href="${HOST}${p.route}" target="_blank">${p.route}</a>
+        <span class="task-pill">T${p.task}</span>
+        ${p.tier ? `<span class="tier-pill ${p.tier}">${p.tier.toUpperCase()}</span>` : ""}
+      </div>
+    </header>
+    <p class="purpose">${p.purpose}</p>
+    ${inboundHtml}
+    ${branchesHtml ? `<div class="branch-label">If / else flow</div><div class="branches">${branchesHtml}</div>` : ""}
+  `;
+
+  return art;
+}
+</script>
+</body>
+</html>
