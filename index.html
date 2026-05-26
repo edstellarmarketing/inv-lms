@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Invensis Learn — Dashboard</title>
+<link rel="stylesheet" href="styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- ===================== COLUMN 1 : SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo-wrap">
+        <img src="images/invensis-learning-logo 2.svg" alt="Invensis Learn" class="logo" />
+      </div>
+
+      <nav class="nav">
+        <a href="#" class="nav-item active">
+          <i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-regular fa-calendar"></i><span>Training Schedule</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-clipboard-question"></i><span>Practice &amp; Quizzes</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-file-pen"></i><span>Mock Exams</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-robot"></i><span>AI Study Assistant</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-certificate"></i><span>Certificates</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-regular fa-message"></i><span>Messages</span>
+          <span class="badge">3</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-book-open"></i><span>Resources</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i class="fa-solid fa-gear"></i><span>Settings</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="plan-pill">
+        <i class="fa-solid fa-crown"></i>
+        <div>
+          <small>You're on the</small>
+          <strong>Gold Plan</strong>
+        </div>
+      </div>
+
+      <div class="upgrade-card">
+        <i class="fa-solid fa-lock"></i>
+        <p>Unlock unlimited Access, live mentoring, and expert support to crack your PMP®</p>
+        <button>Upgrade Plan</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== COLUMN 2 : MAIN ===================== -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <div>
+        <h1>Welcome, Alex!</h1>
+        <p>You're all set to begin your PMP® journey. Let's build your success story.</p>
+      </div>
+      <div class="topbar-right">
+        <div class="search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search for courses, mentors, resources..." />
+        </div>
+        <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="dot"></span></button>
+        <div class="user-chip">
+          <img src="https://i.pravatar.cc/40?img=12" alt="Alex" />
+          <div>
+            <strong>Alex Johnson</strong>
+            <small>PMP® Aspirant</small>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top KPI cards -->
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-icon blue"><i class="fa-regular fa-calendar"></i></span>
+          <small>Exam Target Date</small>
+        </div>
+        <h2>15 May 2024</h2>
+        <p class="muted">45 Days Remaining</p>
+        <div class="progress"><span style="width:62%"></span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-icon green"><i class="fa-solid fa-chart-line"></i></span>
+          <small>Baseline Mock Result</small>
+        </div>
+        <h2>Good start!</h2>
+        <p class="muted">65% Score · Above Average</p>
+        <div class="progress"><span style="width:65%; background:#16a34a"></span></div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-icon yellow"><i class="fa-solid fa-bullseye"></i></span>
+          <small>Overall Progress</small>
+        </div>
+        <h2>0%</h2>
+        <p class="muted">You've just started — keep going!</p>
+        <div class="progress"><span style="width:2%; background:#f59e0b"></span></div>
+      </div>
+
+      <div class="kpi-card voucher">
+        <div class="kpi-head">
+          <span class="kpi-icon purple"><i class="fa-solid fa-ticket"></i></span>
+          <small>Voucher Status</small>
+        </div>
+        <h2>₹2,000</h2>
+        <p class="muted">Available · Exam Voucher</p>
+        <a href="#" class="link">Redeem now <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </section>
+
+    <!-- Session + Next sessions -->
+    <section class="two-col">
+      <!-- Featured Session -->
+      <div class="session-card">
+        <div class="session-head">
+          <div>
+            <span class="tag">Upcoming Live Session</span>
+            <h2>15 May 2024, Wednesday</h2>
+            <div class="session-meta">
+              <span><i class="fa-regular fa-clock"></i> 10:00 AM – 12:00 PM</span>
+              <span><i class="fa-solid fa-video"></i> Live Session</span>
+            </div>
+          </div>
+          <button class="btn-primary"><i class="fa-solid fa-play"></i> Join Session</button>
+        </div>
+
+        <div class="session-body">
+          <div>
+            <small>Topic</small>
+            <h3>Project Scope Management</h3>
+            <p>Learn how to define, plan, and control the scope of your project — the foundation of every PMP success story.</p>
+          </div>
+          <div class="mentor">
+            <img src="https://i.pravatar.cc/60?img=47" alt="Aarti Gupta" />
+            <div>
+              <small>Your Mentor</small>
+              <strong>Aarti Gupta</strong>
+              <span>PMP®, PMI-ACP®</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next 5 sessions -->
+      <div class="next-sessions">
+        <div class="card-head">
+          <h3>Next 5 Sessions</h3>
+          <a href="#">View All</a>
+        </div>
+
+        <ul class="session-list">
+          <li>
+            <div class="date-pill"><strong>16</strong><span>May</span></div>
+            <div>
+              <strong>Project Scope Management</strong>
+              <small>10:00 AM · Aarti Gupta</small>
+            </div>
+          </li>
+          <li>
+            <div class="date-pill"><strong>17</strong><span>May</span></div>
+            <div>
+              <strong>Risk Identification</strong>
+              <small>11:00 AM · Rakesh Iyer</small>
+            </div>
+          </li>
+          <li>
+            <div class="date-pill"><strong>20</strong><span>May</span></div>
+            <div>
+              <strong>Stakeholder Mapping</strong>
+              <small>10:00 AM · Aarti Gupta</small>
+            </div>
+          </li>
+          <li>
+            <div class="date-pill"><strong>22</strong><span>May</span></div>
+            <div>
+              <strong>Schedule Management</strong>
+              <small>09:30 AM · Pooja Mehta</small>
+            </div>
+          </li>
+          <li>
+            <div class="date-pill"><strong>25</strong><span>May</span></div>
+            <div>
+              <strong>Assignment Due</strong>
+              <small>11:59 PM · Scope Charter</small>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Gold Package includes -->
+    <section class="package-card">
+      <div class="card-head">
+        <h3>Your Gold Package includes</h3>
+        <a href="#">View Details</a>
+      </div>
+      <div class="package-grid">
+        <div class="pkg-item"><i class="fa-solid fa-book"></i><span>Study Books</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-robot"></i><span>AI Mentor</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-video"></i><span>Live Sessions</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-file-pen"></i><span>Mock Exams</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-clipboard-check"></i><span>Practice Tests</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-folder-open"></i><span>Study Resources</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-download"></i><span>Downloadable</span></div>
+        <div class="pkg-item"><i class="fa-solid fa-certificate"></i><span>Certificate</span></div>
+      </div>
+    </section>
+
+    <!-- Start your learning journey -->
+    <section class="journey">
+      <div class="card-head">
+        <h3>Start Your Learning Journey</h3>
+        <a href="#">Customize Path</a>
+      </div>
+
+      <div class="journey-grid">
+        <div class="journey-card blue">
+          <div class="jc-head">
+            <span class="jc-icon"><i class="fa-solid fa-video"></i></span>
+            <h4>Live Training</h4>
+          </div>
+          <ul>
+            <li><i class="fa-regular fa-circle-check"></i> Project Scope Management</li>
+            <li><i class="fa-regular fa-circle-check"></i> Risk Assessment</li>
+            <li><i class="fa-regular fa-circle-check"></i> Schedule Management</li>
+          </ul>
+          <button>Start Learning <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <div class="journey-card green">
+          <div class="jc-head">
+            <span class="jc-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+            <h4>Exam Preparation</h4>
+          </div>
+          <ul>
+            <li><i class="fa-regular fa-circle-check"></i> Practice Tests</li>
+            <li><i class="fa-regular fa-circle-check"></i> Mock Exams</li>
+            <li><i class="fa-regular fa-circle-check"></i> Final Exam Prep</li>
+          </ul>
+          <button>Start Practicing <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <div class="journey-card purple">
+          <div class="jc-head">
+            <span class="jc-icon"><i class="fa-solid fa-puzzle-piece"></i></span>
+            <h4>Active Learning</h4>
+          </div>
+          <ul>
+            <li><i class="fa-regular fa-circle-check"></i> Project Activity</li>
+            <li><i class="fa-regular fa-circle-check"></i> Study Quests</li>
+            <li><i class="fa-regular fa-circle-check"></i> Discussion Forum</li>
+          </ul>
+          <button>Explore Now <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <div class="journey-card orange">
+          <div class="jc-head">
+            <span class="jc-icon"><i class="fa-solid fa-people-group"></i></span>
+            <h4>Support &amp; Mentoring</h4>
+          </div>
+          <ul>
+            <li><i class="fa-regular fa-circle-check"></i> 1:1 Mentor Call</li>
+            <li><i class="fa-regular fa-circle-check"></i> Group Sessions</li>
+            <li><i class="fa-regular fa-circle-check"></i> Slack Community</li>
+          </ul>
+          <button>Connect Mentor <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom banner -->
+    <section class="banner">
+      <div>
+        <i class="fa-solid fa-crown"></i>
+        <div>
+          <strong>You have access to all Gold features</strong>
+          <p>Live mentoring, mock exams, and exclusive resources to fast-track your PMP® journey.</p>
+        </div>
+      </div>
+      <button>Explore Gold Features <i class="fa-solid fa-arrow-right"></i></button>
+    </section>
+
+  </main>
+
+  <!-- ===================== COLUMN 3 : RIGHT RAIL ===================== -->
+  <aside class="rightrail">
+    <div class="qa-card">
+      <div class="card-head">
+        <h3>Quick Actions</h3>
+      </div>
+      <ul class="qa-list">
+        <li><span class="qa-icon blue"><i class="fa-solid fa-download"></i></span>Download Study Plan</li>
+        <li><span class="qa-icon green"><i class="fa-regular fa-calendar-plus"></i></span>Schedule Mentor Call</li>
+        <li><span class="qa-icon purple"><i class="fa-brands fa-slack"></i></span>Visit Slack Community</li>
+        <li><span class="qa-icon orange"><i class="fa-solid fa-book-open"></i></span>View Study Materials</li>
+        <li><span class="qa-icon red"><i class="fa-solid fa-robot"></i></span>Ask AI Study Assistant</li>
+      </ul>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <h4>AI Study Buddy</h4>
+      <p>Stuck on a topic? Ask your AI buddy anything about PMP®.</p>
+      <button>Ask Now</button>
+    </div>
+  </aside>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.env*
+*.log
+.DS_Store
+.playwright-mcp
+*.tsbuildinfo
+
+# Debug screenshots dropped at the repo root by Playwright sessions
+/*.png
+
+# Claude Code per-machine settings
+.claude/settings.local.json
