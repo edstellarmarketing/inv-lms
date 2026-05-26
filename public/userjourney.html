@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Invensis LMS — User journey</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root{
+    --bg:#f8fafc; --panel:#ffffff;
+    --ink:#0f1133; --muted:#6b7196; --soft:#475569;
+    --border:#e5e7eb; --line:#cbd5e1;
+    --auth:#2563eb; --onboarding:#7c3aed; --dashboard:#0f1133;
+    --content:#0d9488; --ai:#d97706; --support:#db2777;
+    --readiness:#16a34a; --voucher:#b45309; --exam:#1e3a8a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;color:var(--ink);background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+  body{padding-bottom:80px}
+
+  /* Sticky header */
+  header.top{
+    position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);
+    padding:14px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap
+  }
+  header.top h1{margin:0;font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px}
+  header.top h1::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#2563eb,#d97706)}
+  header.top nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+  header.top nav a{font-size:11.5px;font-weight:700;text-decoration:none;color:var(--soft);padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff}
+  header.top nav a:hover{background:#f1f5f9}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,#0f1133 0%,#1e2042 50%,#2563eb 100%);
+    color:#fff;padding:48px 28px 40px;text-align:center;position:relative;overflow:hidden
+  }
+  .hero h1{margin:0 0 12px;font-size:36px;font-weight:800;line-height:1.15}
+  .hero p{margin:0 auto;font-size:16px;color:rgba(255,255,255,.9);max-width:680px;line-height:1.6}
+  .hero .persona{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:999px;margin-top:18px;font-size:13px}
+  .hero .persona strong{color:#fbbf24;font-weight:800}
+  .hero .persona-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#d97706);color:#fff;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+
+  /* Main wrapper */
+  main{max-width:1100px;margin:0 auto;padding:0 28px}
+
+  /* Chapter */
+  section.chapter{margin-top:48px;position:relative}
+  .chapter-header{
+    background:#fff;border:1px solid var(--border);border-left:6px solid;border-radius:14px;
+    padding:20px 24px;margin-bottom:22px;display:flex;gap:18px;align-items:center
+  }
+  .chapter-header.auth{border-left-color:var(--auth)}
+  .chapter-header.onboarding{border-left-color:var(--onboarding)}
+  .chapter-header.content{border-left-color:var(--content)}
+  .chapter-header.ai{border-left-color:var(--ai)}
+  .chapter-header.support{border-left-color:var(--support)}
+  .chapter-header.readiness{border-left-color:var(--readiness)}
+  .chapter-header.voucher{border-left-color:var(--voucher)}
+  .chapter-header.exam{border-left-color:var(--exam)}
+  .chapter-header.dashboard{border-left-color:var(--dashboard)}
+  .chapter-num{
+    width:50px;height:50px;border-radius:50%;background:#0f1133;color:#fff;
+    font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0
+  }
+  .chapter-header h2{margin:0;font-size:22px;font-weight:800;line-height:1.2}
+  .chapter-header .when{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:800;margin-top:4px}
+  .chapter-header small{display:block;margin-top:4px;font-size:13px;color:var(--soft);font-weight:normal}
+
+  /* Step */
+  .step{
+    background:#fff;border:1px solid var(--border);border-radius:14px;
+    padding:22px 26px;margin-bottom:18px;position:relative;display:grid;grid-template-columns:60px 1fr;gap:20px
+  }
+  .step::before{
+    content:"";position:absolute;left:-1px;top:0;bottom:0;width:5px;border-radius:14px 0 0 14px;
+    background:linear-gradient(180deg,#2563eb 0%,#0d9488 100%);opacity:.7
+  }
+  .step-num{
+    width:40px;height:40px;border-radius:50%;background:#f1f5f9;color:#0f1133;
+    font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center
+  }
+  .step-body{display:flex;flex-direction:column;gap:10px}
+  .step-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:4px}
+  .step-tag{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.4px}
+  .step-tag.you{background:#dbeafe;color:#1d4ed8}
+  .step-tag.system{background:#fef3c7;color:#92400e}
+  .step-tag.email{background:#ede9fe;color:#6d28d9}
+  .step-tag.external{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1}
+  .step-body h3{margin:0;font-size:18px;font-weight:800}
+  .step-narrative{font-size:14px;color:var(--ink);line-height:1.6;margin:0}
+  .step-narrative strong{font-weight:800}
+  .step-narrative em{font-style:italic;color:#475569}
+
+  /* Live link card */
+  .live-link{
+    margin-top:6px;display:flex;justify-content:space-between;align-items:center;gap:14px;
+    padding:12px 16px;background:linear-gradient(120deg,#eff6ff 0%,#fff 70%);border:1px solid #bfdbfe;border-radius:10px;flex-wrap:wrap
+  }
+  .live-link .url{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .live-link small{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:800}
+  .live-link a{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--auth);text-decoration:none;font-weight:700;word-break:break-all}
+  .live-link a:hover{text-decoration:underline}
+  .live-link .visit{
+    background:var(--auth);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:800;
+    text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap
+  }
+  .live-link .visit:hover{background:#1d4ed8}
+
+  /* Decision callout */
+  .decision{
+    margin-top:6px;padding:12px 16px;background:#fffbeb;border:1px solid #fde68a;border-radius:9px;
+    display:flex;gap:10px;align-items:flex-start
+  }
+  .decision i{color:#d97706;font-size:15px;margin-top:2px;flex-shrink:0}
+  .decision strong{color:#0f1133;font-weight:800}
+  .decision p{margin:0;font-size:12.5px;color:#92400e;line-height:1.55}
+  .decision ul{margin:6px 0 0;padding-left:20px}
+  .decision li{font-size:12.5px;color:#92400e;line-height:1.55;margin-bottom:3px}
+
+  /* What changes / state */
+  .state-change{
+    margin-top:6px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;
+    font-size:12.5px;color:#15803d;line-height:1.55;display:flex;gap:8px;align-items:flex-start
+  }
+  .state-change i{color:#16a34a;margin-top:3px;flex-shrink:0;font-size:12px}
+  .state-change strong{color:#0f1133;font-weight:800}
+
+  /* Tier-aware sidebar */
+  .tier-aware{
+    margin-top:6px;padding:12px 16px;background:#fef9c3;border:1px solid #fde68a;border-radius:9px
+  }
+  .tier-aware h4{margin:0 0 6px;font-size:12px;color:#92400e;text-transform:uppercase;letter-spacing:.4px;font-weight:800}
+  .tier-aware ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+  .tier-aware li{font-size:12.5px;color:#0f1133;line-height:1.55}
+  .tier-aware li strong{color:#92400e}
+  .pill{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;margin-right:5px;letter-spacing:.4px}
+  .pill.bronze{background:#fed7aa;color:#9a3412}
+  .pill.silver{background:#e2e8f0;color:#475569}
+  .pill.gold{background:#fbbf24;color:#78350f}
+
+  /* Chapter transition */
+  .transition{
+    text-align:center;padding:18px;color:var(--muted);font-size:13px;font-style:italic;
+    position:relative
+  }
+  .transition::before{
+    content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border);z-index:0
+  }
+  .transition span{background:var(--bg);padding:0 16px;position:relative;z-index:1}
+
+  /* Branch fork */
+  .branch{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0
+  }
+  .branch-side{
+    background:#fff;border:2px solid var(--border);border-radius:14px;padding:20px 22px
+  }
+  .branch-side.pass{border-color:#16a34a;background:linear-gradient(180deg,#f0fdf4 0%,#fff 70%)}
+  .branch-side.fail{border-color:#dc2626;background:linear-gradient(180deg,#fef2f2 0%,#fff 70%)}
+  .branch-tag{
+    display:inline-block;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px
+  }
+  .branch-tag.pass{background:#dcfce7;color:#166534}
+  .branch-tag.fail{background:#fee2e2;color:#b91c1c}
+  .branch-side h3{margin:0 0 8px;font-size:18px;font-weight:800}
+  .branch-side p{font-size:13px;color:var(--soft);line-height:1.55;margin:0 0 12px}
+  .branch-side ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+  .branch-side ol li{font-size:13px;line-height:1.55}
+  .branch-side ol li a{color:var(--auth);text-decoration:none;font-weight:700}
+  .branch-side ol li a:hover{text-decoration:underline}
+
+  /* Big break for second journey */
+  .second-journey-banner{
+    margin:60px 0 32px;padding:32px 28px;background:linear-gradient(135deg,#fef3c7 0%,#fef9c3 100%);
+    border:1px solid #fde68a;border-radius:18px;text-align:center
+  }
+  .second-journey-banner h2{margin:0 0 8px;font-size:28px;font-weight:800;color:#92400e}
+  .second-journey-banner p{margin:0;font-size:15px;color:#78350f;max-width:680px;margin:0 auto;line-height:1.6}
+  .second-journey-banner .eyebrow{display:inline-block;font-size:11px;font-weight:800;color:#d97706;text-transform:uppercase;letter-spacing:.6px;background:#fff;padding:4px 12px;border-radius:999px;margin-bottom:10px;border:1px solid #fcd34d}
+
+  /* Mid-scenario tip */
+  .scenario-tip{
+    margin:18px 0;padding:14px 18px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;
+    display:flex;gap:10px;font-size:13px;color:#1e40af;line-height:1.55
+  }
+  .scenario-tip i{color:var(--auth);font-size:15px;margin-top:2px;flex-shrink:0}
+  .scenario-tip strong{color:#0f1133;font-weight:800}
+
+  /* Footer */
+  footer.foot{
+    margin-top:60px;padding:20px 28px;background:#fff;border-top:1px solid var(--border);
+    text-align:center;font-size:12.5px;color:var(--muted)
+  }
+  footer.foot a{color:var(--auth);text-decoration:none;font-weight:700;margin:0 8px}
+
+  /* Mini emoji helper */
+  .emoji{font-size:1.2em;vertical-align:-2px}
+
+  @media (max-width:760px){
+    main{padding:0 16px}
+    .step{grid-template-columns:1fr;gap:10px}
+    .step-num{margin-bottom:-4px}
+    .chapter-header{flex-direction:column;align-items:flex-start;gap:10px}
+    .branch{grid-template-columns:1fr}
+    .hero h1{font-size:26px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Invensis LMS — User journey</h1>
+  <nav>
+    <a href="#story-1">First purchase</a>
+    <a href="#story-2">Adding a course</a>
+    <a href="/flowchart.html">Flowchart</a>
+    <a href="/flowd.html">Flow diagram</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>📖 Meet Vijay — your future PMP®</h1>
+  <p>
+    Walk through Vijay's first 6 weeks with Invensis Learning — from the moment
+    he clicks "Enrol" on the website to the day his certificate prints. Every
+    click is a real page in the prototype. Click any URL to open it.
+  </p>
+  <div class="persona">
+    <span class="persona-avatar">VK</span>
+    <span>
+      <strong>Vijay Kumar</strong> · Engineering Manager · 8 years in IT services · Targeting PMP® before annual review
+    </span>
+  </div>
+</div>
+
+<main>
+
+<!-- ============================================================
+  STORY 1 — FIRST-TIME PURCHASE: PMP® Gold
+============================================================ -->
+<div id="story-1"></div>
+
+<section class="chapter">
+  <div class="chapter-header auth">
+    <span class="chapter-num">1</span>
+    <div>
+      <span class="when">Off-platform · 0 minutes in</span>
+      <h2>Vijay buys PMP® Gold</h2>
+      <small>From invensislearning.com — picks the Gold tier for the AI tools + 1:1 coaching + money-back guarantee.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">1.1</span>
+    <div class="step-body">
+      <div class="step-meta">
+        <span class="step-tag external">External</span>
+        <span class="step-tag system">Payment</span>
+      </div>
+      <h3>Picks the course on invensislearning.com</h3>
+      <p class="step-narrative">
+        Vijay lands on the PMP® page, compares Bronze / Silver / <strong>Gold</strong>
+        tiers, and decides the 1:1 coaching + money-back guarantee are worth the
+        extra ₹8,000. He pays ₹24,500 via HDFC credit card. The marketing site
+        hands off to Invensis Learning's order system.
+      </p>
+      <div class="state-change">
+        <i class="fa-solid fa-circle-check"></i>
+        <span><strong>Behind the scenes:</strong> Enrolment record created · activation email queued.</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">1.2</span>
+    <div class="step-body">
+      <div class="step-meta">
+        <span class="step-tag email">Email</span>
+        <span class="step-tag system">2 minutes later</span>
+      </div>
+      <h3>Activation email lands in his inbox</h3>
+      <p class="step-narrative">
+        Subject: <em>"Welcome to your PMP® journey — set your password"</em>.
+        Sent from <code>hello@invensislearning.com</code>. One big button:
+        <strong>Set my password &amp; get started</strong>. Vijay clicks it.
+      </p>
+      <div class="live-link">
+        <div class="url">
+          <small>See the email design</small>
+          <a href="https://inv-lms.vercel.app/emails#tpl-activation" target="_blank">https://inv-lms.vercel.app/emails#tpl-activation</a>
+        </div>
+        <a href="https://inv-lms.vercel.app/emails#tpl-activation" target="_blank" class="visit">Open <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">1.3</span>
+    <div class="step-body">
+      <div class="step-meta">
+        <span class="step-tag you">You're here</span>
+      </div>
+      <h3>Activation landing page</h3>
+      <p class="step-narrative">
+        Hero card with the course name and his Gold tier. One CTA:
+        <strong>"Set my password"</strong>. No clutter — by design.
+      </p>
+      <div class="live-link">
+        <div class="url">
+          <small>You're on</small>
+          <a href="https://inv-lms.vercel.app/activate/abc" target="_blank">https://inv-lms.vercel.app/activate/abc</a>
+        </div>
+        <a href="https://inv-lms.vercel.app/activate/abc" target="_blank" class="visit">Visit <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">1.4</span>
+    <div class="step-body">
+      <div class="step-meta">
+        <span class="step-tag you">You're here</span>
+      </div>
+      <h3>Sets password &amp; accepts T&amp;Cs</h3>
+      <p class="step-narrative">
+        Email is locked (matches the one he bought with). He picks a strong
+        password, sees live strength hints, ticks the T&amp;C checkbox, hits
+        submit. The session is minted — he's auto-logged in.
+      </p>
+      <div class="live-link">
+        <div class="url">
+          <small>You're on</small>
+          <a href="https://inv-lms.vercel.app/auth/activate" target="_blank">https://inv-lms.vercel.app/auth/activate</a>
+        </div>
+        <a href="https://inv-lms.vercel.app/auth/activate" target="_blank" class="visit">Visit <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>3 minutes in</span></div>
+
+<section class="chapter">
+  <div class="chapter-header onboarding">
+    <span class="chapter-num">2</span>
+    <div>
+      <span class="when">Day 1 · 5 minutes in</span>
+      <h2>The 4-step onboarding</h2>
+      <small>Quick setup so the AI study plan and gap reports start personalised, not generic.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">2.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">You're here</span></div>
+      <h3>Welcome screen with the 4-step indicator</h3>
+      <p class="step-narrative">
+        Profile → Exam date → Baseline → Done. One Get-started CTA.
+        He has just one enrolment, so he sees the single-course variant.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Single enrolment</small><a href="https://inv-lms.vercel.app/welcome" target="_blank">https://inv-lms.vercel.app/welcome</a></div>
+        <a href="https://inv-lms.vercel.app/welcome" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">2.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Step 1</span></div>
+      <h3>Profile capture</h3>
+      <p class="step-narrative">
+        Role (Engineering Manager), 8 years of experience, IT services domain,
+        <strong>~8 hours/week study capacity</strong>, English fluency. The
+        system uses this to calibrate cadence and AI prompts later.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/onboarding/profile" target="_blank">https://inv-lms.vercel.app/onboarding/profile</a></div>
+        <a href="https://inv-lms.vercel.app/onboarding/profile" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">2.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Step 2</span></div>
+      <h3>Exam target date</h3>
+      <p class="step-narrative">
+        Vijay picks <strong>12 June 2026</strong> — about 6 weeks out. The
+        system shows a countdown and recommends ~12 hours/week to hit
+        readiness in time. He's confident he can do 8 — so the plan adjusts.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/onboarding/exam-date" target="_blank">https://inv-lms.vercel.app/onboarding/exam-date</a></div>
+        <a href="https://inv-lms.vercel.app/onboarding/exam-date" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">2.4</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Step 3</span></div>
+      <h3>20-question baseline mock</h3>
+      <p class="step-narrative">
+        A short timed mock to seed the gap report. He scores <strong>54%</strong>
+        — typical for a starting position. The system shows the breakdown
+        by topic cluster: weakest area is Process domain (38%).
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/onboarding/baseline" target="_blank">https://inv-lms.vercel.app/onboarding/baseline</a></div>
+        <a href="https://inv-lms.vercel.app/onboarding/baseline" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">2.5</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Step 4</span></div>
+      <h3>"You're ready" confirmation</h3>
+      <p class="step-narrative">
+        A faded preview of the dashboard sits behind the confirmation. One CTA:
+        <strong>Open my course</strong>. He clicks — and the LMS comes alive.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/onboarding/complete" target="_blank">https://inv-lms.vercel.app/onboarding/complete</a></div>
+        <a href="https://inv-lms.vercel.app/onboarding/complete" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="state-change">
+        <i class="fa-solid fa-circle-check"></i>
+        <span><strong>Behind the scenes:</strong> Enrolment status flips from <em>activated</em> → <em>active</em>. The "welcome" email from Priya (his cohort instructor) goes out within the hour.</span>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>15 minutes in</span></div>
+
+<section class="chapter">
+  <div class="chapter-header dashboard">
+    <span class="chapter-num">3</span>
+    <div>
+      <span class="when">Day 1 · End of evening</span>
+      <h2>His LMS course dashboard</h2>
+      <small>Central hub. Status banner at the top, every section grouped by purpose, voucher tile sitting locked for now.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">3.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">You're here</span></div>
+      <h3>First look at the course dashboard</h3>
+      <p class="step-narrative">
+        Status banner shows <em>"Exam: 12 Jun 2026 · 42 days away · Readiness 34/100"</em>.
+        Tile sections: Core Training, Exam Preparation, Active Learning, Support &amp; Mentoring,
+        and the locked Voucher tile saying <strong>"41 points to unlock"</strong>.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp" target="_blank">https://inv-lms.vercel.app/lms/pmp</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="tier-aware">
+        <h4>What Gold buys Vijay (vs Bronze / Silver)</h4>
+        <ul>
+          <li><span class="pill bronze">Bronze</span> Reference cards + Q-bank + 3 mocks only · AI tiles locked</li>
+          <li><span class="pill silver">Silver</span> Adds: All AI tools · 6 mocks · live training</li>
+          <li><span class="pill gold">Gold</span> Adds: 1:1 coaching · scenario coach (Practitioner only) · phone support · <strong>money-back guarantee</strong></li>
+        </ul>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>Week 1 · core content phase</span></div>
+
+<section class="chapter">
+  <div class="chapter-header content">
+    <span class="chapter-num">4</span>
+    <div>
+      <span class="when">Week 1–2 · Reading and practising</span>
+      <h2>Building the foundation</h2>
+      <small>Reference cards, study guides, glossary, and his first Q-bank session.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">4.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Reading</span></div>
+      <h3>Opens his first reference card</h3>
+      <p class="step-narrative">
+        Project Integration Management — 12 sections, 35 min read. Left card list,
+        prev/next at the bottom, mark-as-read toggle, bookmark icon. He reads
+        the first 4 sections and bookmarks the EVM page for later.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/reference/integration-management" target="_blank">https://inv-lms.vercel.app/lms/pmp/reference/integration-management</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/reference/integration-management" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="state-change">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Progress delta lands on the dashboard. Bookmark appears on the <a href="https://inv-lms.vercel.app/lms/pmp/saved" target="_blank">Saved</a> tile.</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">4.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Reading</span></div>
+      <h3>Long-form: study guide</h3>
+      <p class="step-narrative">
+        He moves to the <strong>PMBOK Guide 7th Ed. Study Guide</strong> — 14 chapters,
+        sticky TOC sidebar, scroll progress saved every few seconds. He stops
+        mid-chapter; tomorrow it resumes exactly where he left off.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/study-guide/pmbok-7" target="_blank">https://inv-lms.vercel.app/lms/pmp/study-guide/pmbok-7</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/study-guide/pmbok-7" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">4.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Practising</span></div>
+      <h3>First Q-bank session — Process domain</h3>
+      <p class="step-narrative">
+        Vijay picks his weakest topic from the picker, sets difficulty to Mixed
+        and length to 25 questions. The runner shows one question at a time
+        with reveal-explanation after each. He gets 16/25 — 64%.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Picker</small><a href="https://inv-lms.vercel.app/lms/pmp/question-bank" target="_blank">https://inv-lms.vercel.app/lms/pmp/question-bank</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/question-bank" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="live-link">
+        <div class="url"><small>Session result</small><a href="https://inv-lms.vercel.app/lms/pmp/question-bank/session/s1/result" target="_blank">https://inv-lms.vercel.app/lms/pmp/question-bank/session/s1/result</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/question-bank/session/s1/result" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>Week 2 · the AI tools unlock</span></div>
+
+<section class="chapter">
+  <div class="chapter-header ai">
+    <span class="chapter-num">5</span>
+    <div>
+      <span class="when">Week 2 · Personalised prep kicks in</span>
+      <h2>The AI tools start working for him</h2>
+      <small>Study plan, gap report, flashcards, concept coach — all calibrated to his baseline + last week's Q-bank sessions.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">5.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Discovers</span></div>
+      <h3>AI section tour</h3>
+      <p class="step-narrative">
+        He clicks the AI section card on the dashboard. Two groups: Exam Prep AI
+        (study plan, gap report, flashcards) and Active Learning AI (concept coach,
+        scenario coach, interview coach, daily challenge). <strong>Scenario coach</strong>
+        is Gold-only — Vijay sees it lit up.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/ai" target="_blank">https://inv-lms.vercel.app/lms/pmp/ai</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/ai" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">5.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Reads</span></div>
+      <h3>His first AI gap report</h3>
+      <p class="step-narrative">
+        Generated overnight, the report has a topic-cluster strength chart, a
+        plain-language narrative ("you understand the framework but stumble on
+        EVM application"), and <strong>5 prioritised actions</strong>:
+        re-take Mini Mock 1, drill 50 wrong-only questions in Process, read the
+        EVM card, attend Wednesday's EVM clinic, run a scenario drill.
+        He acknowledges and starts on action #1.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/ai/gap-report" target="_blank">https://inv-lms.vercel.app/lms/pmp/ai/gap-report</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/ai/gap-report" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="state-change">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Acknowledging the report credits +15 toward his readiness composite (Gold weighting).</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">5.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Uses daily</span></div>
+      <h3>Adaptive flashcards become a habit</h3>
+      <p class="step-narrative">
+        15 minutes most evenings. Each card flips front/back; he rates Again /
+        Hard / Good / Easy. The SM-2 algorithm spaces tomorrow's deck around
+        what he's still shaky on.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/ai/flashcards" target="_blank">https://inv-lms.vercel.app/lms/pmp/ai/flashcards</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/ai/flashcards" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">5.4</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Asks</span></div>
+      <h3>Stumped on EVM? Concept coach</h3>
+      <p class="step-narrative">
+        Vijay can't wrap his head around why CV is negative when CPI &lt; 1. He opens
+        the concept coach chat. The AI explains it with two worked scenarios
+        and links the relevant reference card section. He saves the conversation.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/ai/concept-coach" target="_blank">https://inv-lms.vercel.app/lms/pmp/ai/concept-coach</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/ai/concept-coach" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="decision">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+          <strong>Edge case:</strong> if he asks an out-of-syllabus question (e.g. "explain SAFe"),
+          the coach politely refuses and suggests 3 in-scope topics. No "I don't know" dead-ends.
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>Week 3 · finding his cohort</span></div>
+
+<section class="chapter">
+  <div class="chapter-header support">
+    <span class="chapter-num">6</span>
+    <div>
+      <span class="when">Week 3 · Live training &amp; community</span>
+      <h2>Vijay finds his people</h2>
+      <small>Joins live sessions, asks questions in Q&amp;A, books his first coaching call, joins the community.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">6.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Attends</span></div>
+      <h3>Wednesday's EVM clinic — live</h3>
+      <p class="step-narrative">
+        He spotted it in the live training schedule and RSVP'd. Rohan Mehta
+        teaches the formulas with a whiteboard walkthrough. Two worked
+        exam-style scenarios. Vijay's "aha moment" arrives at minute 38.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Schedule</small><a href="https://inv-lms.vercel.app/lms/pmp/live-training" target="_blank">https://inv-lms.vercel.app/lms/pmp/live-training</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/live-training" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="live-link">
+        <div class="url"><small>Session detail · with prep checklist</small><a href="https://inv-lms.vercel.app/lms/pmp/live-training/s-25-1" target="_blank">https://inv-lms.vercel.app/lms/pmp/live-training/s-25-1</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/live-training/s-25-1" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">6.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Books</span></div>
+      <h3>His first 1:1 coaching call</h3>
+      <p class="step-narrative">
+        He has 6 coaching credits with his Gold tier. He picks <strong>Kavya
+        Nair</strong> for Business Environment domain coaching, fills out the
+        pre-call questionnaire, books Tuesday 19:30 IST. The call is 60 min,
+        recorded, with notes after.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/coaching" target="_blank">https://inv-lms.vercel.app/lms/pmp/coaching</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/coaching" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="tier-aware">
+        <h4>What if Vijay were on Silver?</h4>
+        <ul>
+          <li>Coaching tile would render as locked with an Upgrade-to-Gold modal on click</li>
+          <li>Phone support would also lock — only email + chat available</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">6.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Joins</span></div>
+      <h3>Reads the code of conduct, joins the community</h3>
+      <p class="step-narrative">
+        12,480 members across 38 countries. He picks 4 channels to follow:
+        <strong>#general</strong>, <strong>#process-domain</strong>,
+        <strong>#exam-stories</strong>, and <strong>#study-groups</strong>.
+        First night, he asks his EVM question — a peer answers in 6 minutes.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/community" target="_blank">https://inv-lms.vercel.app/lms/pmp/community</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/community" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>Week 4–5 · pushing through the gate</span></div>
+
+<section class="chapter">
+  <div class="chapter-header readiness">
+    <span class="chapter-num">7</span>
+    <div>
+      <span class="when">Week 4–5 · Mocks and the readiness panel</span>
+      <h2>Watching the composite score climb</h2>
+      <small>Mocks, drill-downs, the celebration banner when he crosses 90.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">7.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Tracks</span></div>
+      <h3>The readiness panel becomes his obsession</h3>
+      <p class="step-narrative">
+        Big ring shows <strong>62/100</strong> · projected ready-by 8 June (4 days
+        before the exam). Three input cards reveal what's driving the score:
+        Mocks (raw 68, contributing +27), Q-bank coverage (raw 58, contributing +17),
+        Gap-report acks (raw 50, contributing +15). He drills into each.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/readiness" target="_blank">https://inv-lms.vercel.app/lms/pmp/readiness</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/readiness" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">7.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Identifies the gap</span></div>
+      <h3>Q-bank heatmap shows the cherry-picking floor</h3>
+      <p class="step-narrative">
+        He's been drilling People domain (where he scores ~80%) and avoiding
+        Process. The heatmap calls him out — Process Medium &amp; Hard cells are
+        red because coverage is under 50%. <strong>The gate is blocked.</strong>
+        He commits to 200 wrong-only Process questions over the next 5 days.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/readiness/qbank" target="_blank">https://inv-lms.vercel.app/lms/pmp/readiness/qbank</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/readiness/qbank" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">7.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Takes</span></div>
+      <h3>Full Length Exam 2 — first mock under real conditions</h3>
+      <p class="step-narrative">
+        180 questions in 230 minutes. Sticky timer, navigator, flag/visited.
+        He auto-saves twice during the attempt (the runner is forgiving). He
+        scores <strong>72%</strong>. Composite jumps from 62 → 68.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Intro</small><a href="https://inv-lms.vercel.app/lms/pmp/mock-exam/2" target="_blank">https://inv-lms.vercel.app/lms/pmp/mock-exam/2</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/mock-exam/2" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="live-link">
+        <div class="url"><small>Result page</small><a href="https://inv-lms.vercel.app/lms/pmp/mock-exam/2/result" target="_blank">https://inv-lms.vercel.app/lms/pmp/mock-exam/2/result</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/mock-exam/2/result" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">7.4</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag system">Dashboard flips</span></div>
+      <h3>"🎯 One more mock and you're ready!"</h3>
+      <p class="step-narrative">
+        Days later, composite hits <strong>92</strong>. The standard status banner
+        is replaced by the celebration banner — animated burst confetti,
+        pulsing icon, big green Redeem voucher CTA. Vijay grins at his laptop.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>See the banner state</small><a href="https://inv-lms.vercel.app/lms/pmp/polish" target="_blank">https://inv-lms.vercel.app/lms/pmp/polish</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/polish" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>3 weeks to exam · time to book</span></div>
+
+<section class="chapter">
+  <div class="chapter-header voucher">
+    <span class="chapter-num">8</span>
+    <div>
+      <span class="when">Day 22 · Voucher unlocks</span>
+      <h2>Vijay redeems his voucher</h2>
+      <small>Tile glows green. He clicks Redeem. The voucher reveal modal opens. He hands off to PMI to book.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">8.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Redeems</span></div>
+      <h3>The voucher tile is now glowing</h3>
+      <p class="step-narrative">
+        Pulsing green border. "Ready to redeem!" inside. He clicks the big
+        Redeem button. A reveal modal opens — confetti, the awarding-body logo,
+        his single-use voucher code, the validity window (96 days), Copy code
+        button. He copies it.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>The tile · 4 states</small><a href="https://inv-lms.vercel.app/lms/pmp/voucher" target="_blank">https://inv-lms.vercel.app/lms/pmp/voucher</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/voucher" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="live-link">
+        <div class="url"><small>The reveal modal</small><a href="https://inv-lms.vercel.app/lms/pmp/voucher/modals" target="_blank">https://inv-lms.vercel.app/lms/pmp/voucher/modals</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/voucher/modals" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">8.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag system">External handoff</span></div>
+      <h3>Hands off to PMI's booking portal</h3>
+      <p class="step-narrative">
+        The handoff page walks him through the 4-step PMI booking flow with
+        screenshots and tips ("paste the code at checkout — case-sensitive").
+        He clicks <strong>Open PMI booking page</strong>, gets routed to
+        pmi.org, pastes his code, picks <strong>Friday 12 June at 10:00 AM IST</strong>
+        for online proctored.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/voucher/booking" target="_blank">https://inv-lms.vercel.app/lms/pmp/voucher/booking</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/voucher/booking" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">8.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Records</span></div>
+      <h3>Comes back to record the exam date</h3>
+      <p class="step-narrative">
+        PMI confirmed the booking via email. Vijay drops the date into Invensis.
+        The banner across his dashboard updates to <em>"Exam: 12 Jun · 17 days away"</em>.
+        The exam-day prep page activates with countdown and checklist.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/voucher/scheduled" target="_blank">https://inv-lms.vercel.app/lms/pmp/voucher/scheduled</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/voucher/scheduled" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>17 days to exam · final stretch</span></div>
+
+<section class="chapter">
+  <div class="chapter-header exam">
+    <span class="chapter-num">9</span>
+    <div>
+      <span class="when">Days 22 to 39 · Final prep</span>
+      <h2>The countdown to exam day</h2>
+      <small>Exam-day prep page, day-of checklist, the calm standby surface, sitting the exam.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">9.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Checks off</span></div>
+      <h3>Works through the day-of checklist</h3>
+      <p class="step-narrative">
+        Vijay returns to this page nightly the last week. 10 items grouped by
+        Identity, Tech, Environment, Policies. Webcam test on PMI's system
+        check ✓. Backup network configured ✓. Quiet room ✓. He tapers his
+        practice — light review only in the final 3 days.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/exam-day" target="_blank">https://inv-lms.vercel.app/lms/pmp/exam-day</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/exam-day" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">9.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag system">Auto-routes</span></div>
+      <h3>Exam day · 30 minutes before slot</h3>
+      <p class="step-narrative">
+        9:30 AM. The page auto-routes to the calm standby surface. Pulsing
+        green "Exam window is open" status. Big green
+        <strong>Join exam now</strong> button. Study tools are disabled —
+        on purpose. Vijay takes a breath, clicks Join, and the PMI portal
+        opens in a new tab.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/exam-day/active" target="_blank">https://inv-lms.vercel.app/lms/pmp/exam-day/active</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/exam-day/active" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">9.3</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Records</span></div>
+      <h3>Records the outcome</h3>
+      <p class="step-narrative">
+        Three hours and 50 minutes later he submits. Provisional result on screen.
+        He comes back to Invensis and clicks the post-exam banner. The outcome
+        recording form is ready — he selects <strong>I passed</strong>, fills
+        in score (AT/AT/T), uploads the PMI confirmation screenshot.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>You're on</small><a href="https://inv-lms.vercel.app/lms/pmp/exam-result/record" target="_blank">https://inv-lms.vercel.app/lms/pmp/exam-result/record</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/exam-result/record" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>The fork — two possible Vijays</span></div>
+
+<!-- Branch: Pass vs Fail -->
+<div class="branch">
+  <article class="branch-side pass">
+    <span class="branch-tag pass">If he passes</span>
+    <h3>🏆 Vijay-A: PMP®-certified</h3>
+    <p>
+      The dashboard re-skins. The cert page opens with his name on a real
+      certificate frame. He walks through:
+    </p>
+    <ol>
+      <li><a href="https://inv-lms.vercel.app/lms/pmp/certificate" target="_blank">Cert page</a> → downloads PDF, copies LinkedIn share URL</li>
+      <li><a href="https://inv-lms.vercel.app/lms/pmp/share" target="_blank">Social share</a> → posts to LinkedIn with referral code <code>IL-VK-9X4</code></li>
+      <li><a href="https://inv-lms.vercel.app/lms/pmp/pathways" target="_blank">Pathways</a> → reads about PgMP next</li>
+      <li><a href="https://inv-lms.vercel.app/lms/pmp/renewal" target="_blank">Renewal tracker</a> → 3-year cycle, 60 PDUs to maintain</li>
+      <li>Eventually <a href="https://inv-lms.vercel.app/lms/pmp/closed" target="_blank">Closed (passed)</a> — golden-gradient terminal state</li>
+    </ol>
+  </article>
+
+  <article class="branch-side fail">
+    <span class="branch-tag fail">If he doesn't pass</span>
+    <h3>💪 Vijay-B: Time to recover</h3>
+    <p>
+      The empathetic fail outcome view opens. Score 54% — 6 points short.
+      Two tier-aware paths sit side-by-side:
+    </p>
+    <ol>
+      <li><a href="https://inv-lms.vercel.app/lms/pmp/exam-result" target="_blank">Fail outcome view</a> → reads the cluster breakdown</li>
+      <li>Pick Path A: <a href="https://inv-lms.vercel.app/lms/pmp/retake" target="_blank">Book retake</a> within 180 days · structured 6-week plan</li>
+      <li>OR Path B: <a href="https://inv-lms.vercel.app/lms/pmp/money-back/claim" target="_blank">Claim refund</a> · gate-honoured snapshot · ₹23,000 back</li>
+      <li>If claim: <a href="https://inv-lms.vercel.app/lms/pmp/money-back/status/CLM-2026-7841" target="_blank">Refund timeline</a> · 4-step status</li>
+      <li>Eventually <a href="https://inv-lms.vercel.app/lms/pmp/closed" target="_blank">Closed (refunded)</a> terminal state</li>
+    </ol>
+  </article>
+</div>
+
+<!-- ============================================================
+  STORY 2 — ADDITIONAL COURSE PURCHASE
+============================================================ -->
+
+<div id="story-2" class="second-journey-banner">
+  <span class="eyebrow">📚 Six months later</span>
+  <h2>Vijay buys his second course</h2>
+  <p>
+    He passed PMP®. Got promoted at work. Now his director is pushing him
+    toward program management, and PgMP® makes sense. Here's how the journey
+    shifts when there's already an active enrolment.
+  </p>
+</div>
+
+<section class="chapter">
+  <div class="chapter-header auth">
+    <span class="chapter-num">10</span>
+    <div>
+      <span class="when">Month 8 · Second purchase</span>
+      <h2>Pathways → PgMP® enrolment</h2>
+      <small>Discovers via the post-cert pathways page, enrols at the alumni rate, gets routed differently.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">10.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Browses</span></div>
+      <h3>Comes back to the pathways page</h3>
+      <p class="step-narrative">
+        He sees the recommendations Invensis tuned for him: <strong>PgMP®</strong>
+        is the top match (because his Business Environment scores were strong).
+        He clicks through to invensislearning.com — and sees the
+        <strong>15% alumni discount</strong> auto-applied at checkout.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Where he starts</small><a href="https://inv-lms.vercel.app/lms/pmp/pathways" target="_blank">https://inv-lms.vercel.app/lms/pmp/pathways</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/pathways" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">10.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag email">Email</span></div>
+      <h3>A different activation email this time</h3>
+      <p class="step-narrative">
+        Because he already has an account, the email says <em>"Your PgMP®
+        enrolment is live"</em> — no password setup needed. One CTA:
+        <strong>Open PgMP® dashboard</strong>. The system already knows him.
+      </p>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>The big change · multi-enrolment</span></div>
+
+<section class="chapter">
+  <div class="chapter-header dashboard">
+    <span class="chapter-num">11</span>
+    <div>
+      <span class="when">Login changes from now on</span>
+      <h2>Top-level dashboard becomes home</h2>
+      <small>With two active enrolments, login no longer routes straight to the LMS course view — Vijay sees a hub of his courses first.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">11.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag system">Routing change</span></div>
+      <h3>Next time he logs in</h3>
+      <p class="step-narrative">
+        Login submits → enrolment count is 2 → route lands him on the
+        <strong>top-level dashboard</strong>, not the course page. He sees
+        his closed PMP cert badge + his active PgMP enrolment side by side.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Top-level hub (with the cards)</small><a href="https://inv-lms.vercel.app/dashboard" target="_blank">https://inv-lms.vercel.app/dashboard</a></div>
+        <a href="https://inv-lms.vercel.app/dashboard" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="decision">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+          <strong>The routing rule:</strong>
+          <ul>
+            <li><code>enrolments.length === 1</code> → goes straight to <a href="https://inv-lms.vercel.app/lms/pmp" target="_blank">/lms/&lt;slug&gt;</a></li>
+            <li><code>enrolments.length &gt; 1</code> → goes to <a href="https://inv-lms.vercel.app/dashboard" target="_blank">/dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">11.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag you">Picks PgMP®</span></div>
+      <h3>Opens his new course's dashboard</h3>
+      <p class="step-narrative">
+        He clicks the PgMP® card. He's on a fresh
+        <strong>LMS course dashboard</strong> — same layout as PMP was, but
+        scoped to PgMP content. Status banner says <em>"34/100 · target: 4 months"</em>.
+        Course slug in the URL changes (<code>/lms/pgmp</code>).
+      </p>
+      <div class="live-link">
+        <div class="url"><small>What the PgMP dashboard looks like</small><a href="https://inv-lms.vercel.app/lms/pmp" target="_blank">https://inv-lms.vercel.app/lms/pmp</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="scenario-tip">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>
+          <strong>What's reused:</strong> The whole second course re-uses every UI surface (cards, mocks, AI, voucher, certificate, renewal). What's new: scoped content, separate readiness composite, separate voucher, separate exam booking.
+        </span>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="transition"><span>The combo case</span></div>
+
+<section class="chapter">
+  <div class="chapter-header voucher">
+    <span class="chapter-num">12</span>
+    <div>
+      <span class="when">Special case · F + P combo</span>
+      <h2>What if it's PRINCE2® F+P (a combo course)?</h2>
+      <small>Different flavour of multi-enrolment — one purchase, two exams, two vouchers, two gates.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">12.1</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag system">Combo enrolment</span></div>
+      <h3>One purchase, two exams</h3>
+      <p class="step-narrative">
+        If Vijay had instead bought PRINCE2® <strong>Foundation + Practitioner</strong>
+        as a combo, his journey would route through the combo dashboard —
+        sub-sections for F and P stacked vertically, with two voucher tiles and
+        two readiness scores running in parallel.
+      </p>
+      <div class="live-link">
+        <div class="url"><small>Combo dashboard</small><a href="https://inv-lms.vercel.app/dashboard-multi" target="_blank">https://inv-lms.vercel.app/dashboard-multi</a></div>
+        <a href="https://inv-lms.vercel.app/dashboard-multi" target="_blank" class="visit">Visit</a>
+      </div>
+      <div class="live-link">
+        <div class="url"><small>Combo voucher view</small><a href="https://inv-lms.vercel.app/lms/pmp/voucher/combo" target="_blank">https://inv-lms.vercel.app/lms/pmp/voucher/combo</a></div>
+        <a href="https://inv-lms.vercel.app/lms/pmp/voucher/combo" target="_blank" class="visit">Visit</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="step">
+    <span class="step-num">12.2</span>
+    <div class="step-body">
+      <div class="step-meta"><span class="step-tag system">Two independent gates</span></div>
+      <h3>Pass Foundation → unlock Practitioner gate</h3>
+      <p class="step-narrative">
+        Foundation gate (composite ≥ 70) unlocks first. He'd book Foundation,
+        pass, then Practitioner becomes the next focus (composite ≥ 75, higher
+        bar). Each leg has its own validity window: F expires earlier, P later
+        to give him runway.
+      </p>
+      <div class="decision">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+          <strong>Money-back across the combo:</strong>
+          If he passes F but fails P, he can claim the P portion of the fee back
+          (gate-honoured). The guarantee applies per attempt, not per combo.
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- Footer / journey summary -->
+<section class="chapter">
+  <div class="chapter-header dashboard">
+    <span class="chapter-num">13</span>
+    <div>
+      <span class="when">Looking back</span>
+      <h2>What Vijay built</h2>
+      <small>The shape of the relationship Invensis ends up with after one year.</small>
+    </div>
+  </div>
+
+  <article class="step">
+    <span class="step-num">13.1</span>
+    <div class="step-body">
+      <h3>One year, two certifications, an alumni for life</h3>
+      <p class="step-narrative">
+        PMP® passed in week 6. PgMP® in progress 6 months later.
+        Cashback ledger holds <strong>₹1,500</strong> from a friend's referral.
+        He's posted in the community 31 times and got marked helpful 84 times —
+        which earned him a Top Helper award. His renewal tracker is at 18 of
+        60 PDUs, on track for the 3-year cycle.
+      </p>
+      <p class="step-narrative">
+        From Invensis Learning's side: one ₹24,500 purchase became
+        <strong>two paid courses + ~₹6,000 in referrals + a multi-year
+        retention</strong> via PDU renewal, community, and the alumni rate on
+        future certs. The product was built so the experience scales with the
+        relationship.
+      </p>
+    </div>
+  </article>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>
+    Every URL above opens the real prototype page on
+    <strong>inv-lms.vercel.app</strong>.
+    Want the structured view? See <a href="/flowchart.html">flowchart.html</a> ·
+    <a href="/flowd.html">flowd.html</a>.
+  </p>
+</footer>
+
+</body>
+</html>
