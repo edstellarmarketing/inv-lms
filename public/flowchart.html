@@ -23,6 +23,7 @@
     --readiness:#16a34a; --readiness-bg:#dcfce7;
     --voucher:#b45309; --voucher-bg:#fef3c7;
     --exam:#1e3a8a; --exam-bg:#dbeafe;
+    --polish:#475569; --polish-bg:#f1f5f9;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
@@ -62,6 +63,7 @@
   section.stage.readiness > header{background:var(--readiness-bg);border-color:var(--readiness);color:#15803d}
   section.stage.voucher > header{background:var(--voucher-bg);border-color:var(--voucher);color:#92400e}
   section.stage.exam > header{background:var(--exam-bg);border-color:var(--exam);color:var(--exam)}
+  section.stage.polish > header{background:var(--polish-bg);border-color:var(--polish);color:var(--polish)}
 
   /* Page card */
   article.page{
@@ -78,6 +80,7 @@
   article.page.readiness::before{background:var(--readiness)}
   article.page.voucher::before{background:var(--voucher)}
   article.page.exam::before{background:var(--exam)}
+  article.page.polish::before{background:var(--polish)}
 
   article.page > header.page-head{
     display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
@@ -186,13 +189,14 @@
     <a href="#readiness">Readiness</a>
     <a href="#voucher">Voucher</a>
     <a href="#exam">Exam</a>
+    <a href="#polish">Polish</a>
   </nav>
 </header>
 
 <main id="root"></main>
 
 <footer class="status">
-  <span>65 pages · 9 stages · click any route to open it</span>
+  <span>67 pages · 10 stages · click any route to open it</span>
   <span><a href="/flowd.html">← back to visual flow diagram</a></span>
 </footer>
 
@@ -209,6 +213,7 @@ const STAGES = [
   { id: "readiness", icon: "🎯", label: "Stage 6 — Readiness", sub: "Composite score + per-input drill-downs" },
   { id: "voucher", icon: "🎟️", label: "Stage 6 — Voucher & booking", sub: "Tile states, reveal, awarding-body handoff, scheduled" },
   { id: "exam", icon: "🏁", label: "Stage 7 — Exam day & outcomes", sub: "Exam day prep · standby · outcome · pass and fail paths · terminal" },
+  { id: "polish", icon: "✨", label: "Polish & side flows", sub: "Email gallery · instructor modal · celebration banner · a11y pass (T83–T86)" },
 ];
 
 /**
@@ -1059,6 +1064,47 @@ const PAGES = [
         ] },
     ]
   },
+  /* ── POLISH ───────────────────────────────────────────────── */
+  {
+    id:"emails", stage:"polish", task:83, label:"Email template gallery", route:"/emails",
+    purpose:"Static HTML mockups of 8 transactional + lifecycle + nudge emails (activation, welcome, receipt, voucher-issued, password reset, 3 nudge variants). Visual only — not wired to a sender.",
+    inbound:[{ label:"Direct visit · /emails" }],
+    branches:[
+      { action:"Email triggers in production (Task 122)",
+        conditions:[
+          { type:"if", test:"event === 'enrolment-paid'",      goto:null, gotoLabel:"Send activation email" },
+          { type:"if", test:"event === 'onboarding-complete'", goto:null, gotoLabel:"Send welcome email (from Priya)" },
+          { type:"if", test:"event === 'payment-received'",    goto:null, gotoLabel:"Send receipt" },
+          { type:"if", test:"event === 'voucher-redeemed'",    goto:null, gotoLabel:"Send voucher-issued email" },
+          { type:"if", test:"event === 'no-mock-in-10d'",      goto:null, gotoLabel:"Send mock nudge" },
+          { type:"if", test:"event === 'onboarding-stuck'",    goto:null, gotoLabel:"Send onboarding nudge" },
+        ] },
+    ]
+  },
+  {
+    id:"polish-showcase", stage:"polish", task:84, label:"Polish showcase (modal + banner)", route:"/lms/pmp/polish",
+    purpose:"Bundles T84 (instructor profile modal with rating/stats/reviews/sessions) and T85 (almost-there celebration banner with animated burst and 3 banner states).",
+    inbound:[
+      { from:"live-training",       label:"Click instructor name (T84)" },
+      { from:"live-session-detail", label:"Click instructor name (T84)" },
+      { from:"qa-session",          label:"Click instructor name (T84)" },
+      { from:"coaching",            label:"Click coach name (T84)" },
+      { from:"lms-dashboard",       label:"Banner variant (T85)", condition:"composite ≥ 90" }
+    ],
+    branches:[
+      { action:"On dashboard load — banner variant",
+        conditions:[
+          { type:"if", test:"composite >= 90",        goto:null, gotoLabel:"Render celebration banner (T85)" },
+          { type:"if", test:"composite >= 70 && < 90", goto:null, gotoLabel:"Render push-to-ready banner" },
+          { type:"else", goto:null, gotoLabel:"Render standard status banner" }
+        ] },
+      { action:"User clicks instructor name anywhere",
+        conditions:[ { type:"plain", goto:null, gotoLabel:"Open instructor profile modal (T84)", note:"role=dialog · aria-labelledby" } ] },
+      { action:"User clicks Redeem voucher on celebration banner",
+        conditions:[ { type:"plain", goto:"voucher-tile", gotoLabel:"Voucher tile (unlocked)" } ] },
+    ]
+  },
+
   {
     id:"closed-terminal", stage:"exam", task:82, label:"Closed enrollment terminal", route:"/lms/pmp/closed",
     purpose:"Two variants: PASSED (golden hero + trophy + Download/Share/Renewal) or REFUNDED (dark hero + refund card + re-enrol-at-alumni-rate). Both show journey-in-numbers, pathways cross-sell, keep-vs-archive split.",
